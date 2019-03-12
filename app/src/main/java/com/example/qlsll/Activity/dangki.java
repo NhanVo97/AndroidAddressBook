@@ -127,7 +127,8 @@ public class dangki extends AppCompatActivity implements View.OnClickListener, D
                         birthday = new Date(edBirthDay.getText().toString());
                     }
                      UserRequest userRequest = new UserRequest(email,passwordHash,firstName,lastName,phone,address,birthday);
-                     sendToServer(userRequest);
+                    userRequest.setLang("EN");
+                    sendToServer(userRequest);
                 }
 
                 break;
@@ -146,7 +147,7 @@ public class dangki extends AppCompatActivity implements View.OnClickListener, D
     private void sendToServer(UserRequest userRequest)
     {
 
-        userService.saveUser(userRequest).enqueue(new Callback<APIResponse>() {
+        userService.signUpUser(userRequest).enqueue(new Callback<APIResponse>() {
             @Override
             public void onResponse(Call<APIResponse> call, retrofit2.Response<APIResponse> response) {
                 int status = response.code();
