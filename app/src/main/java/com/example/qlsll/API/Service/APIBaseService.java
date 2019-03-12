@@ -5,6 +5,9 @@ import com.example.qlsll.Utils.Constant;
 
 public class APIBaseService {
     public static UserService getUserAPIService() {
-        return RetrofitResfulAPI.getClient(Constant.BASE_URL_API).create(UserService.class);
+       return RetrofitResfulAPI.getInstance().create(UserService.class);
+    }
+    public static AuthService getAuthAPIService() {
+        return RetrofitResfulAPI.getInstance().create(AuthService.class);
     }
 }

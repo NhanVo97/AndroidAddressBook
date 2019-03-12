@@ -1,9 +1,9 @@
-package com.example.qlsll.API.Model;
+package com.example.qlsll.API.Model.Response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class APIResponse {
+public class ReponseAuthLogin {
     @SerializedName("status")
     @Expose
     private Integer status;
@@ -12,7 +12,7 @@ public class APIResponse {
     private String message;
     @SerializedName("data")
     @Expose
-    private Object data;
+    private String data;
 
     public Integer getStatus() {
         return status;
@@ -30,11 +30,11 @@ public class APIResponse {
         this.message = message;
     }
 
-    public Object getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(String data) {
         this.data = data;
     }
 }

@@ -123,7 +123,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                         birthday = new Date(edBirthDay.getText().toString());
                     }
                      UserRequest userRequest = new UserRequest(email,passwordHash,firstName,lastName,phone,address,birthday);
-                     sendToServer(userRequest);
+                    userRequest.setLang("EN");
+                    sendToServer(userRequest);
                 }
                 break;
             case R.id.birthday :
@@ -141,7 +142,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     private void sendToServer(UserRequest userRequest)
     {
 
-        userService.saveUser(userRequest).enqueue(new Callback<APIResponse>() {
+        userService.signUpUser(userRequest).enqueue(new Callback<APIResponse>() {
             @Override
             public void onResponse(Call<APIResponse> call, retrofit2.Response<APIResponse> response) {
                 int status = response.code();
