@@ -1,120 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_background"
     tools:context=".Activity.MainActivity">
-
     <TextView
+        android:textSize="40dp"
+        android:gravity="center"
+        android:background="#3F51B5"
+        android:textColor="#FFFFFF"
+        android:text="Quản Lý Sổ Địa Chỉ"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:layout_height="100dp" />
+    <TextView
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_height="wrap_content"
+
+        android:textColor="#3F51B5"
+        android:layout_marginBottom="10dp"
         android:text="ĐĂNG NHẬP HỆ THỐNG"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:textSize="20sp" />
     <EditText
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/ettk"
-        android:layout_width="329dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:hint="Email" />
 
     <EditText
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/etpass"
-        android:layout_width="326dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ettk" />
-
-    <Button
-        android:id="@+id/btdn"
-        android:layout_width="229dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="ĐĂNG NHẬP"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
-
-    <Button
-        android:id="@+id/btdk"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="ĐĂNG KÍ"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btdn" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Quên mật khẩu ? "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btdk"
-        app:layout_constraintVertical_bias="0.044" />
-
+        android:inputType="textPassword" />
     <CheckBox
+        android:layout_marginBottom="10dp"
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Nhớ mật khẩu "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.029"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etpass" />
+        android:text="Nhớ mật khẩu "/>
+    <LinearLayout
 
-</android.support.constraint.ConstraintLayout>
+       android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+           android:layout_margin="10dp"
+            android:background="#3F51B5"
+            android:textColor="#FFFFFF"
+            android:layout_weight="2"
+            android:id="@+id/btdn"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            
+            android:text="ĐĂNG NHẬP" />
+
+        <Button
+            android:layout_margin="10dp"
+            android:background="#3F51B5"
+            android:textColor="#FFFFFF"
+            android:layout_weight="2"
+            android:id="@+id/btdk"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+           android:text="ĐĂNG KÍ"/>
+    </LinearLayout>
+   <TextView
+        android:layout_marginStart="20dp"
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quên mật khẩu ? "/>
+
+
+
+</LinearLayout>

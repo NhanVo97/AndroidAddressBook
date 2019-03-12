@@ -1,5 +1,7 @@
 package com.example.qlsll.API.Model.Response;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -41,4 +43,5 @@ public class UserResponse {
     @SerializedName("lang")
     @Expose
     private String lang;
+
 }

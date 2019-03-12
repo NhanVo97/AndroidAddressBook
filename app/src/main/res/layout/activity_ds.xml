@@ -1,91 +1,96 @@
-<RelativeLayout android:layout_height="match_parent"
+<LinearLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@drawable/custom_background"
+    android:background="#5062E9"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
-        android:id="@+id/r1"
-        android:layout_width="80dp"
-        android:layout_height="50dp">
-        <ImageView
-            android:id="@+id/iv_back"
+   <LinearLayout
+       android:layout_marginTop="5dp"
+       android:layout_marginRight="5dp"
+       android:id="@+id/l1"
+       android:layout_weight="1"
 
-            android:src="@drawable/ic_back"
-            android:layout_width="10dp"
-            android:layout_height="50dp" />
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
 
-       <TextView
-           android:layout_toRightOf="@+id/iv_back"
-           android:text="Trở lại"
-           android:layout_marginTop="15dp"
-           android:layout_width="80dp"
-           android:layout_height="30dp" />
-    </RelativeLayout>
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/sv"
-        
-        android:layout_toRightOf="@id/r1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.SearchView>
-    <RelativeLayout
-        android:id="@+id/themds"
-        android:layout_margin="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/sv"
-        android:layout_width="80dp"
-        android:layout_height="50dp">
-        <ImageView
-            android:id="@+id/ivadd"
-            android:src="@drawable/ic_add"
-            android:layout_width="40dp"
-            android:layout_height="50dp"  />
         <TextView
-            android:layout_toRightOf="@id/ivadd"
-            android:text="Thêm"
-            android:layout_width="50dp"
-            android:layout_height="30dp" />
-
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:id="@+id/btluachon"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#EBEBE0"
+            android:text="Trở lại"
+            android:textSize="20dp" />
+        <android.support.v7.widget.SearchView
+            android:layout_weight="8"
+            android:id="@+id/sv"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF">
+        </android.support.v7.widget.SearchView>
+    </LinearLayout>
+        <RelativeLayout
+            android:gravity="center"
+            android:background="#D9D9E6"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:id="@+id/themds"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/sv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivadd"
+                android:src="@drawable/ic_add_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"  />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_toEndOf="@+id/ivadd"
+                android:layout_toRightOf="@+id/ivadd"
+                android:text="Thêm" />
+
+        </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+
+        android:id="@+id/recyclervier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btluachon"
+        android:layout_weight="30"
+        android:background="#EEEEF5">
+    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <Button
+                android:background="#3F51B5"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="20dp"
                 android:text="Danh Sách"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
             <Button
+                android:background="#3F51B5"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="20dp"
                 android:text="Nhóm"
                 android:layout_weight="1"
-                android:layout_width="match_parent"
+                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclervier"
-
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_above="@+id/btluachon"
-
-
-        android:layout_below="@id/themds"
-
-        android:layout_marginBottom="64dp"
-        android:background="#E0E9E7">
-
-        
-
-    </android.support.v7.widget.RecyclerView>
-
-
-
-
-</RelativeLayout>
+</LinearLayout>

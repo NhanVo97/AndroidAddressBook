@@ -1,7 +1,6 @@
 package com.example.qlsll.Activity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Nhập thông tin", Toast.LENGTH_SHORT).show();
                 }
                 if (!ettk.getText().toString().equals("")&&!etpass.getText().toString().equals("")){
-
+                    if(ettk.getText().toString().equals("sang1")&&etpass.getText().toString().equals("123")) {
+                        Intent myIntent = new Intent(MainActivity.this, dsUser.class);
+                        MainActivity.this.startActivity(myIntent);
+                    }
                          if(ettk.getText().toString().equals("sang")&&etpass.getText().toString().equals("123")) {
                                  Intent myIntent = new Intent(MainActivity.this, DSActivity.class);
                                  MainActivity.this.startActivity(myIntent);
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         btdk.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                 Intent myIntent = new Intent(MainActivity.this, Register.class);
+                 Intent myIntent = new Intent(MainActivity.this, dangki.class);
                 MainActivity.this.startActivity(myIntent);
 
             }

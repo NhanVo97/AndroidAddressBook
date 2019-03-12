@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.qlsll.Adapter.AdapterAddressBook;
 import com.example.qlsll.API.Model.Request.AddressBookRequest;
@@ -21,7 +22,7 @@ public class DSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ds);
         initView();
-        RelativeLayout r1 = findViewById(R.id.r1);
+        TextView r1 = findViewById(R.id.back);
         r1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

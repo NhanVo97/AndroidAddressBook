@@ -1,6 +1,7 @@
 package com.example.qlsll.Activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,11 +28,14 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class Register extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class dangki extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     EditText edFirstName,edLastName,edEmail,edPhone,edAddress,edPassword,edCfPassword,edBirthDay;
     Button btnSignUp;
     TextView tvLogin,tvForgotPassword;
     UserService userService;
+    private Button dangki;
+    private EditText ten ;
+    private EditText mail;
     private boolean validateInput(
             String firstName,String lastName,String email,String phone
             ,String password, String cfpassword
@@ -74,6 +78,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ki);
+
         // Anh Xa
             intitData();
         // Event
@@ -92,7 +97,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         edBirthDay = findViewById(R.id.birthday);
         btnSignUp = findViewById(R.id.btnSignUp);
         tvLogin = findViewById(R.id.btnLogin);
-        tvForgotPassword = findViewById(R.id.btnForgot);
         userService = APIBaseService.getUserAPIService();
     }
     @Override
@@ -125,6 +129,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                      UserRequest userRequest = new UserRequest(email,passwordHash,firstName,lastName,phone,address,birthday);
                      sendToServer(userRequest);
                 }
+
                 break;
             case R.id.birthday :
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
@@ -166,4 +171,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                 .append("/").append(month + 1)
                 .append("/").append(year).append(" "));
     }
-}
+
+
+
+
+
+    }
+
+
