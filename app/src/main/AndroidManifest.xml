@@ -18,7 +18,7 @@
         <activity android:name=".Activity.thong_tin" />
         <activity android:name=".Activity.Them_Nhom" />
         <activity android:name=".Activity.ThemDS" />
-        <activity android:name=".Activity.dangki" />
+        <activity android:name=".Activity.Resgister" />
         <activity android:name=".Activity.DSActivity" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

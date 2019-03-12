@@ -28,7 +28,7 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class dangki extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class Resgister extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     EditText edFirstName,edLastName,edEmail,edPhone,edAddress,edPassword,edCfPassword,edBirthDay;
     Button btnSignUp;
     TextView tvLogin,tvForgotPassword;

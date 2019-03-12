@@ -22,7 +22,7 @@ public class RetrofitResfulAPI {
     private static Retrofit INSTANCE = null;
     private static Gson gson;
 
-
+// hc cai nay
     public static Retrofit getInstance() {
         if (INSTANCE == null) {
 
