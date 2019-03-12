@@ -1,0 +1,91 @@
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@drawable/custom_background"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:id="@+id/r1"
+        android:layout_width="80dp"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/iv_back"
+
+            android:src="@drawable/ic_back"
+            android:layout_width="10dp"
+            android:layout_height="50dp" />
+
+       <TextView
+           android:layout_toRightOf="@+id/iv_back"
+           android:text="Trở lại"
+           android:layout_marginTop="15dp"
+           android:layout_width="80dp"
+           android:layout_height="30dp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/sv"
+        
+        android:layout_toRightOf="@id/r1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.SearchView>
+    <RelativeLayout
+        android:id="@+id/themds"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/sv"
+        android:layout_width="80dp"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/ivadd"
+            android:src="@drawable/ic_add"
+            android:layout_width="40dp"
+            android:layout_height="50dp"  />
+        <TextView
+            android:layout_toRightOf="@id/ivadd"
+            android:text="Thêm"
+            android:layout_width="50dp"
+            android:layout_height="30dp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/btluachon"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <Button
+                android:text="Danh Sách"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:text="Nhóm"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclervier"
+
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_above="@+id/btluachon"
+
+
+        android:layout_below="@id/themds"
+
+        android:layout_marginBottom="64dp"
+        android:background="#E0E9E7">
+
+        
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+
+</RelativeLayout>

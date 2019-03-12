@@ -1,0 +1,110 @@
+<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <TextView
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:background="#3F51B5"
+       android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:padding="10dp"
+        android:text="@string/sign_up_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:id="@+id/lastName"
+            android:hint="@string/lastName"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:id="@+id/firstName"
+            android:hint="@string/firstName"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/email"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="number"
+        android:id="@+id/phone"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/address"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:focusable="false"
+        android:id="@+id/birthday"
+        android:layout_marginBottom="10dp"
+        android:inputType="date"
+        android:padding="10dp"
+        android:hint="@string/birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/password"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/cfpassword"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/Confirmpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/btnSignUp"
+        android:background="#3F51B5"
+        android:textColor="#FFFFFF"
+        android:text="@string/sign_up"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btnLogin"
+            android:text="@string/login" android:textStyle="bold"
+        android:layout_weight="4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/btnForgot"
+            android:text="@string/forgotpassword"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="sign_up_member">Đăng Ký Thành Viên</string>
+    <string name="app_name">Quản Lý Sổ Địa Chỉ</string>
+    <string name="sign_up">Đăng Ký</string>
+    <string name="firstName">Tên</string>
+    <string name="lastName">Họ</string>
+    <string name="email">Email</string>
+    <string name="password">Mật Khẩu</string>
+    <string name="phone">Số điện Thoại</string>
+    <string name="birthday">Ngày Sinh</string>
+    <string name="address">Địa Chỉ</string>
+    <string name="login">Đăng Nhập</string>
+    <string name="forgotpassword">Quên Mật Khẩu?</string>
+    <string name="lang">Ngôn Ngữ</string>
+    <string name="fullName">Họ Và Tên</string>
+    <string name="Confirmpassword">Xác Nhận Mật Khẩu</string>
+</resources>
