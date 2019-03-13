@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
@@ -19,12 +20,18 @@ import com.example.qlsll.Utils.CommonUtil;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.MD5Hash;
 import com.example.qlsll.Utils.Response;
+import com.google.gson.JsonObject;
 
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -33,9 +40,7 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     Button btnSignUp;
     TextView tvLogin,tvForgotPassword;
     UserService userService;
-    private Button dangki;
-    private EditText ten ;
-    private EditText mail;
+    int day,month,year;
     private boolean validateInput(
             String firstName,String lastName,String email,String phone
             ,String password, String cfpassword
@@ -122,6 +127,7 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
                         e.printStackTrace();
                     }
                     Date birthday = new Date();
+
                     if(!birthDay.isEmpty())
                     {
                         birthday = new Date(edBirthDay.getText().toString());
@@ -147,23 +153,39 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     private void sendToServer(UserRequest userRequest)
     {
 
-        userService.signUpUser(userRequest).enqueue(new Callback<APIResponse>() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("lastName",userRequest.getLastName());
+        jsonObject.addProperty("firstName", userRequest.getFirstName());
+        jsonObject.addProperty("phone",userRequest.getPhone());
+        jsonObject.addProperty("email",userRequest.getEmail());
+        jsonObject.addProperty("dob",year+"-"+month+"-"+day);
+        jsonObject.addProperty("address",userRequest.getAddress());
+        jsonObject.addProperty("lang", userRequest.getDob().toString());
+        jsonObject.addProperty("passwordHash",userRequest.getPasswordHash());
+        userService.signUpUser(jsonObject).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
             @Override
-            public void onResponse(Call<APIResponse> call, retrofit2.Response<APIResponse> response) {
-                int status = response.code();
-                if(status == 200)
-                {
-                    Response.toastSuccess(getApplicationContext(),"Tạo User Thành Công",Constant.TOASTSORT);
-                    // direct User to main
+            public void onSubscribe(Disposable d) {
 
-                }
             }
 
             @Override
-            public void onFailure(Call<APIResponse> call, Throwable t) {
-                Response.toastError(getApplicationContext(),"Tạo User Thất Bại",Constant.TOASTSORT);
+            public void onNext(APIResponse apiResponse) {
+                Toast.makeText(Resgister.this, apiResponse.getData()+"", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(Resgister.this, e+"", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onComplete() {
+                Toast.makeText(Resgister.this, "TC", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -171,6 +193,9 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
                 .append(dayOfMonth)
                 .append("/").append(month + 1)
                 .append("/").append(year).append(" "));
+        this.day = dayOfMonth;
+        this.month = month;
+        this.year = year;
     }
 
 

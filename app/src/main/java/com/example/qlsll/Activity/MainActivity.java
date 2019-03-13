@@ -7,24 +7,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.qlsll.API.Model.APIResponse;
+import com.example.qlsll.API.Model.Request.UserRequest;
+import com.example.qlsll.API.Model.Response.SessionReponse;
+import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AuthService;
+import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.MD5Hash;
 import com.example.qlsll.Utils.Response;
 import com.google.gson.JsonObject;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import rx.Subscriber;
-import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
     EditText edAccount ;
@@ -94,12 +98,22 @@ public class MainActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
+
             }
 
             @Override
             public void onNext(APIResponse apiResponse) {
-                apiResponseAuth = apiResponse;
-                Response.toastSuccess(getApplicationContext(),apiResponse.getData().toString(),Constant.TOASTSORT);
+
+                int status = apiResponse.getStatus();
+                if(status == 200)
+                {
+                    apiResponseAuth = apiResponse;
+                }
+                else
+                {
+                    Response.toastError(getApplicationContext(),"Lỗi API",Constant.TOASTSORT);
+                }
+
             }
 
             @Override
@@ -109,9 +123,44 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onComplete() {
+//                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
+//                UserResponse userResponse = (UserResponse) apiResponseAuth.getData();
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("user", (Serializable) userResponse);
+//                intent.putExtra("bundleUser",bundle);
+//                startActivity(intent);
 
             }
         });
+
+    }
+    private SessionReponse getSession(String idToken){
+        final SessionReponse[] sessionReponse = {null};
+        UserService userService = APIBaseService.getUserAPIService();
+        userService.getSessionByAccessToken(idToken).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(APIResponse apiResponse) {
+                String a = apiResponse.toString();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+        return sessionReponse[0];
     }
 
 

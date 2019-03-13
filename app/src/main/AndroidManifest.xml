@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".itemuser"></activity>
-        <activity android:name=".Activity.dsUser" />
+        <activity android:name=".Activity.UserListActivity" />
         <activity android:name=".Activity.suaTT" />
         <activity android:name=".Activity.thong_tin" />
         <activity android:name=".Activity.Them_Nhom" />
