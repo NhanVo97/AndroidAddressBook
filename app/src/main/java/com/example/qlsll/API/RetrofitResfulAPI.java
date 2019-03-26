@@ -1,7 +1,4 @@
 package com.example.qlsll.API;
-
-import android.util.Base64;
-
 import com.example.qlsll.API.Service.AuthService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +7,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.annotations.Nullable;
 import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -21,18 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitResfulAPI {
     private static AuthService authService;
-    private static String BASE_URL = "http://192.168.43.152:8080/api/v1/"; // thay duong dan base
+    private static String BASE_URL = "http://192.168.43.152:8080/api/v1/"; // API Config
     private static Retrofit INSTANCE = null;
     private static Gson gson;
-
-// hc cai nay
     public static Retrofit getInstance() {
         if (INSTANCE == null) {
 
             gson = new GsonBuilder()
                     .setLenient()
                     .create();
-
             OkHttpClient okClient = new OkHttpClient.Builder()
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(30, TimeUnit.SECONDS)

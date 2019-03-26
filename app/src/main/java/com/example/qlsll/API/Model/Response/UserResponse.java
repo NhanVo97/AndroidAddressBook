@@ -4,7 +4,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class UserResponse {
+
+import java.io.Serializable;
+
+public class UserResponse implements Serializable {
     @SerializedName("userId")
     @Expose
     private String userId;
@@ -28,10 +31,16 @@ public class UserResponse {
     private String setting;
     @SerializedName("status")
     @Expose
-    private Integer status;
+    private int status;
+    @SerializedName("signupDate")
+    @Expose
+    private String signupDate;
     @SerializedName("dob")
     @Expose
     private String dob;
+    @SerializedName("lastActivity")
+    @Expose
+    private String lastActivity;
     @SerializedName("lang")
     @Expose
     private String lang;
@@ -100,12 +109,28 @@ public class UserResponse {
         this.status = status;
     }
 
+    public String getSignupDate() {
+        return signupDate;
+    }
+
+    public void setSignupDate(String signupDate) {
+        this.signupDate = signupDate;
+    }
+
     public String getDob() {
         return dob;
     }
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    public String getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(String lastActivity) {
+        this.lastActivity = lastActivity;
     }
 
     public String getLang() {

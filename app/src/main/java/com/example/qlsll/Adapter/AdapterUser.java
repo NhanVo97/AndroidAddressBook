@@ -1,47 +1,63 @@
 package com.example.qlsll.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.qlsll.API.Model.Request.AddressBookRequest;
 import com.example.qlsll.API.Model.Response.UserResponse;
+import com.example.qlsll.Activity.MainActivity;
+import com.example.qlsll.Fragment.FragmentDetailUser;
+import com.example.qlsll.Fragment.FragmentListUser;
 import com.example.qlsll.R;
+import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
-    ArrayList<UserResponse> listUser;
+    List<UserResponse> listUser;
     Context context;
-
-    public AdapterUser(ArrayList<UserResponse> listUser, Context context) {
+    FragmentManager fragmentManager;
+    public AdapterUser(List<UserResponse> listUser, Context context, FragmentManager fragmentManager) {
         this.listUser = listUser;
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.activity_itemuser,parent,false);
+        View itemView = layoutInflater.inflate(R.layout.itemuser,parent,false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-//            holder.ten.setText(AddressBookRequest.get(position).getTen());
-//            holder.mail.setText(AddressBookRequest.get(position).getMail());
-        holder.li1.setOnClickListener(new View.OnClickListener() {
+        UserResponse userResponse = new Gson().fromJson(new Gson().toJson((listUser.get(position))),(Type) UserResponse.class);
+        holder.username.setText(userResponse.getFirstName());
+        holder.mail.setText(userResponse.getMailAddress());
+        int index = position + 1;
+        holder.count.setText(String.valueOf(index));
+        holder.layoutUserClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+position, Toast.LENGTH_SHORT).show();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("User", (Serializable) userResponse);
+                FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
+                fragmentDetailUser.setArguments(bundle);
+                fragmentTransaction.replace(R.id.layout_fragmentuser,fragmentDetailUser).addToBackStack("tag").commit();
             }
         });
-
     }
 
     @Override
@@ -50,15 +66,20 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView ten;
+        TextView username;
         TextView mail;
-        LinearLayout li1;
+        TextView count;
+        ConstraintLayout layoutUserClick;
         public ViewHolder(View itemView){
             super(itemView);
-            ten=itemView.findViewById(R.id.name);
-            mail=itemView.findViewById(R.id.mail);
-            li1= itemView.findViewById(R.id.item);
+            username = itemView.findViewById(R.id.tvUserName);
+            mail= itemView.findViewById(R.id.tvEmail);
+            count = itemView.findViewById(R.id.tvSTT);
+            layoutUserClick = itemView.findViewById(R.id.layoutUserClick);
         }
+    }
+    public interface OnCallBack{
+        void onItemClick(int position);
     }
 
 

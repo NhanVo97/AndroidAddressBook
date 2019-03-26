@@ -3,19 +3,23 @@ package com.example.qlsll.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
+import com.example.qlsll.API.Model.Request.AuthRequest;
 import com.example.qlsll.API.Model.Request.UserRequest;
 import com.example.qlsll.API.Model.Response.SessionReponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AuthService;
 import com.example.qlsll.API.Service.UserService;
+import com.example.qlsll.Fragment.FragmentListUser;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.MD5Hash;
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     CheckBox cbRemember;
     Button btnLogin,btnSignUp;
     boolean check;
-    APIResponse apiResponseAuth;
+    APIResponse apiResponse;
     private boolean validateInput(String account,String password)
     {
         if(account.isEmpty() || password.isEmpty())
@@ -57,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btdk);
         cbRemember = findViewById(R.id.checkBox);
         // Check
-
-
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,77 +92,46 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleLogin(String account, String password,boolean check) throws NoSuchAlgorithmException {
         AuthService authService = APIBaseService.getAuthAPIService();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("account",account);
-        jsonObject.addProperty("passwordHash", MD5Hash.MD5Encrypt(password));
-        jsonObject.addProperty("keepLogin",check);
-        authService.LoginUser(jsonObject).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setAccount(account);
+        authRequest.setPasswordHash(MD5Hash.MD5Encrypt(password));
+        authRequest.setKeepLogin(check);
+        authService.AdminLogin(authRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<APIResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onNext(APIResponse apiResponse) {
+                    @Override
+                    public void onNext(APIResponse res) {
+                        apiResponse = res;
+                    }
 
-                int status = apiResponse.getStatus();
-                if(status == 200)
-                {
-                    apiResponseAuth = apiResponse;
-                }
-                else
-                {
-                    Response.toastError(getApplicationContext(),"Lỗi API",Constant.TOASTSORT);
-                }
+                    @Override
+                    public void onError(Throwable e) {
+                        Response.toastError(getApplicationContext(),"Login Fail "+e.toString(),Constant.TOASTSORT);
+                    }
 
-            }
+                    @Override
+                    public void onComplete() {
+                        if(apiResponse.getStatus() == APIStatus.OK.getCode())
+                        {
+                            Intent intent = new Intent(MainActivity.this,AdminManagementActivity.class);
+                            // send to activity
+                            intent.putExtra("accessToken",apiResponse.getData().toString());
+                            intent.putExtra("isAdmin",true);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Response.APIToastError(getApplicationContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+                        }
+                    }
+                });
 
-            @Override
-            public void onError(Throwable e) {
-               Response.toastSuccess(getApplicationContext(),e+"",Constant.TOASTSORT);
-            }
-
-            @Override
-            public void onComplete() {
-//                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
-//                UserResponse userResponse = (UserResponse) apiResponseAuth.getData();
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("user", (Serializable) userResponse);
-//                intent.putExtra("bundleUser",bundle);
-//                startActivity(intent);
-
-            }
-        });
-
-    }
-    private SessionReponse getSession(String idToken){
-        final SessionReponse[] sessionReponse = {null};
-        UserService userService = APIBaseService.getUserAPIService();
-        userService.getSessionByAccessToken(idToken).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(APIResponse apiResponse) {
-                String a = apiResponse.toString();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-
-        return sessionReponse[0];
     }
 
 

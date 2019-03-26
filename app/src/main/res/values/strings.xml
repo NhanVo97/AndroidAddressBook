@@ -14,4 +14,12 @@
     <string name="lang">Ngôn Ngữ</string>
     <string name="fullName">Họ Và Tên</string>
     <string name="Confirmpassword">Xác Nhận Mật Khẩu</string>
+    <string name="searchbar">Tìm kiếm .... </string>
+    <string name="informationOF">Thông tin của </string>
+    <string name="createDate">Ngày Tạo</string>
+    <string name="status">Trạng thái</string>
+    <string name="active_status">Hoạt động</string>
+    <string name="pending_status">Chờ xác thực</string>
+    <string name="update">Cập Nhật</string>
+    <string name="delete">Xóa</string>
 </resources>

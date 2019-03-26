@@ -1,0 +1,22 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_fragmentuser">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listUser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        android:backgroundTint="#18ade4"
+        android:layout_margin="30dp"
+        android:layout_gravity="bottom|right|end" />
+</android.support.design.widget.CoordinatorLayout>

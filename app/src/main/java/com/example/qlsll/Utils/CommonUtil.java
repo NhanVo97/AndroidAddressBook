@@ -1,9 +1,4 @@
 package com.example.qlsll.Utils;
-
-import android.widget.DatePicker;
-
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,15 +36,21 @@ public class CommonUtil {
 
         return valid;
     }
-    public static Date getDateFromDatePicker(DatePicker datePicker)
-    {
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year =  datePicker.getYear();
+   public static String getStatus(int key)
+   {
+       String status = "";
+       switch (key)
+       {
+           case 1:
+               status = "Hoạt Động";
+           case 2:
+               status = "Không Hoạt Động";
+           case 0:
+               status = "Đã Xóa";
+           case 4:
+               status = "Đang Chờ";
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-        return calendar.getTime();
-    }
+       }
+       return status;
+   }
 }
