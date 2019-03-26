@@ -1,5 +1,6 @@
 package com.example.qlsll.API;
 import com.example.qlsll.API.Service.AuthService;
+import com.example.qlsll.Utils.Constant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -18,8 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitResfulAPI {
-    private static AuthService authService;
-    private static String BASE_URL = "http://192.168.43.152:8080/api/v1/"; // API Config
+    private static String BASE_URL = Constant.BASE_URL_API;
     private static Retrofit INSTANCE = null;
     private static Gson gson;
     public static Retrofit getInstance() {

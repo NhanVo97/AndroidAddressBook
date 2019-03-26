@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     {
         if(account.isEmpty() || password.isEmpty())
         {
-            Response.toastError(getApplicationContext(),"Không được để trống Input", Constant.TOASTSORT);
+            Response.toastError(getApplicationContext(),getResources().getString(R.string.err_input_invalid), Constant.TOASTSORT);
             return false;
         }
         return true;
@@ -112,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Response.toastError(getApplicationContext(),"Login Fail "+e.toString(),Constant.TOASTSORT);
+                        Response.toastError(getApplicationContext(),getResources().getString(R.string.login_fail),Constant.TOASTSORT);
+                        Log.e("API_LOGIN_ADMIN",e.toString());
                     }
 
                     @Override

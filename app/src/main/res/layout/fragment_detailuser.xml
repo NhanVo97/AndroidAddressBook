@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:textSize="16dp"
             android:gravity="center"
             android:textStyle="bold"
             android:text="@string/lastName"
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textSize="16dp"
             android:gravity="center"
             android:textStyle="bold"
             android:layout_weight="3"
@@ -38,46 +40,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:padding="10dp"
             android:id="@+id/lastNameUser"
             android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:padding="10dp"
             android:id="@+id/firstNameUser"
             android:layout_weight="3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:text="@string/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
+        android:padding="10dp"
+        android:textColor="#FFF"
+        android:background="@android:color/darker_gray"
+        android:focusable="false"
         android:id="@+id/emailUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:text="@string/phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
+        android:padding="10dp"
         android:id="@+id/phoneUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:text="@string/lang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Spinner
+        android:padding="10dp"
         android:id="@+id/spinnerLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </Spinner>
     <TextView
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:text="@string/birthday"
         android:layout_width="match_parent"
@@ -88,25 +110,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="16dp"
         android:textStyle="bold"
         android:text="@string/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
-        android:focusable="false"
         android:id="@+id/addressUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:paddingLeft="10dp"
+            android:textSize="16dp"
             android:textStyle="bold"
             android:layout_weight="2"
             android:text="@string/createDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
        <TextView
+           android:textSize="16dp"
            android:gravity="center"
            android:textStyle="bold"
            android:text="@string/status"
@@ -119,7 +147,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/createDateUser"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:textStyle="bold"
             android:textColor="#FFF"
             android:padding="10dp"
@@ -129,16 +157,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:paddingLeft="10dp"
+            android:textColor="#4CAF50"
+            android:padding="10dp"
             android:id="@+id/statusUser"
             android:gravity="center"
             android:textStyle="bold"
             android:text="@string/active_status"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
-        android:gravity="end"
+        android:gravity="start"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
