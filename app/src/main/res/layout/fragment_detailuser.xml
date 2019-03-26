@@ -143,6 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/deleteUser"
             android:textColor="#FFF"
             android:background="#18ade4"
             android:text="@string/delete"
@@ -150,6 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
+            android:id="@+id/updateUser"
             android:layout_marginLeft="10dp"
             android:textColor="#FFF"
             android:background="#18ade4"

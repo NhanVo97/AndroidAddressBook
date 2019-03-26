@@ -43,12 +43,16 @@ public class CommonUtil {
        {
            case 1:
                status = "Hoạt Động";
+               break;
            case 2:
                status = "Không Hoạt Động";
+               break;
            case 0:
                status = "Đã Xóa";
+               break;
            case 4:
                status = "Đang Chờ";
+               break;
 
        }
        return status;
