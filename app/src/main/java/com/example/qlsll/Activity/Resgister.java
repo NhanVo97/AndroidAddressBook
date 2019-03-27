@@ -132,9 +132,9 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
                     {
                         birthday = new Date(edBirthDay.getText().toString());
                     }
-                     UserRequest userRequest = new UserRequest(email,passwordHash,firstName,lastName,phone,address,birthday);
-                    userRequest.setLang("EN");
-                    sendToServer(userRequest);
+//                    // UserRequest userRequest = new UserRequest(email,passwordHash,firstName,lastName,phone,address,birthday);
+//                    userRequest.setLang("EN");
+//                    sendToServer(userRequest);
                 }
 
                 break;

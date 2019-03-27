@@ -11,7 +11,10 @@ import com.example.qlsll.API.Model.Response.AdminResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Adapter.AdminManagementAdapter;
+import com.example.qlsll.Fragment.FragmentListAddressBook;
+import com.example.qlsll.Fragment.FragmentListGroupAddressBook;
 import com.example.qlsll.Fragment.FragmentListUser;
+import com.example.qlsll.Fragment.UpdateAPI;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.Management.Session;
@@ -19,6 +22,7 @@ import com.example.qlsll.Utils.Response;
 import com.google.gson.Gson;
 
 import android.support.design.widget.TabLayout;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -31,13 +35,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class AdminManagementActivity extends AppCompatActivity {
+public class AdminManagementActivity extends AppCompatActivity implements UpdateAPI {
 
     TabLayout tabLayout;
     ViewPager viewPager;
     EditText searchBar;
     TextView tvUsername;
     ImageView imAvt;
+    FragmentListUser fragmentListUser;
+    FragmentListAddressBook fragmentListAddressBook;
+    FragmentListGroupAddressBook fragmentListGroupAddressBook;
+
+
     public static String accessToken;
     private void backToHome()
     {
@@ -59,9 +68,11 @@ public class AdminManagementActivity extends AppCompatActivity {
         // send to fragment
         Bundle bundle = new Bundle();
         bundle.putString("accessToken",accessToken);
-        FragmentListUser fragmentListUser = new FragmentListUser();
+         fragmentListUser = new FragmentListUser();
         fragmentListUser.setArguments(bundle);
         // init tablayout data
+        fragmentListAddressBook = new FragmentListAddressBook();
+        fragmentListGroupAddressBook = new FragmentListGroupAddressBook();
         init();
         // check role
         boolean isAdmin = intent.getBooleanExtra("isAdmin",false);
@@ -75,9 +86,9 @@ public class AdminManagementActivity extends AppCompatActivity {
     private void init()
     {
         AdminManagementAdapter adminManagementAdapter = new AdminManagementAdapter(getSupportFragmentManager());
-        adminManagementAdapter.addFragment(new FragmentListUser(),"Quản Lý User");
-        adminManagementAdapter.addFragment(new FragmentListUser(),"Sổ địa chỉ");
-        adminManagementAdapter.addFragment(new FragmentListUser(),"Nhóm địa chỉ");
+        adminManagementAdapter.addFragment(fragmentListUser,"Quản Lý User");
+        adminManagementAdapter.addFragment(fragmentListAddressBook,"Sổ địa chỉ");
+        adminManagementAdapter.addFragment(fragmentListGroupAddressBook,"Nhóm địa chỉ");
         viewPager.setAdapter(adminManagementAdapter);
         viewPager.setCurrentItem(0);
         viewPager.setOffscreenPageLimit(3);
@@ -127,5 +138,10 @@ public class AdminManagementActivity extends AppCompatActivity {
                     });
         }
 
+    }
+
+    @Override
+    public void checkUpdate(boolean isCheck) {
+       fragmentListUser.initData(accessToken);
     }
 }

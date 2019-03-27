@@ -5,6 +5,12 @@ public class Country {
     private String key;
     private String name;
 
+    public Country(int icon, String key, String name) {
+        this.icon = icon;
+        this.key = key;
+        this.name = name;
+    }
+
     public int getIcon() {
         return icon;
     }

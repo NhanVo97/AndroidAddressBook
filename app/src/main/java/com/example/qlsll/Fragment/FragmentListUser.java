@@ -49,22 +49,14 @@ public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack
         String accessToken = AdminManagementActivity.accessToken;
         // Anh Xa
         recyclerView = v.findViewById(R.id.listUser);
+        initData(accessToken);
+        return v;
+    }
+    public void initData(String accessToken) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try  {
-                    initData(accessToken);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
-
-        return v;
-    }
-    private void initData(String accessToken) {
         listUser = new ArrayList<>();
         UserService userService = APIBaseService.getUserAPIService();
         // Param send to server
@@ -101,7 +93,7 @@ public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack
                         List<Object> listObject = pageResponse.getContent();
                         listUser = (List<UserResponse>)(List<?>)listObject;
                         Log.e("AAA",listUser.toString());
-                        adapterUser = new AdapterUser(listUser,getContext(), getFragmentManager());
+                        adapterUser = new AdapterUser(listUser,getContext(), getFragmentManager(),accessToken);
                         recyclerView.setHasFixedSize(true);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -109,10 +101,19 @@ public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack
                         recyclerView.setAdapter(adapterUser);
                     }
                 });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     @Override
     public void onItemClick(int position) {
 
     }
+
+
 }

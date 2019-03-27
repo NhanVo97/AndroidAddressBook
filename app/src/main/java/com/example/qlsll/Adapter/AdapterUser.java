@@ -27,10 +27,12 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
     List<UserResponse> listUser;
     Context context;
     FragmentManager fragmentManager;
-    public AdapterUser(List<UserResponse> listUser, Context context, FragmentManager fragmentManager) {
+    String accessToken;
+    public AdapterUser(List<UserResponse> listUser, Context context, FragmentManager fragmentManager,String accessToken) {
         this.listUser = listUser;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -53,6 +55,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("User", (Serializable) userResponse);
+                bundle.putString("accessToken",accessToken);
                 FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
                 fragmentDetailUser.setArguments(bundle);
                 fragmentTransaction.replace(R.id.layout_fragmentuser,fragmentDetailUser).addToBackStack("tag").commit();

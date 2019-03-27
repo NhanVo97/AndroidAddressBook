@@ -13,17 +13,17 @@ import com.example.qlsll.R;
 
 import java.util.List;
 
-public class SpinerCountryAdapter extends ArrayAdapter<Country> {
+public class SpinnerCountryAdapter extends ArrayAdapter<Country> {
     List<Country> listCountry;
     Context mContext;
-    int resource;
     LayoutInflater inflter;
-    public SpinerCountryAdapter(Context context, int resource,  List<Country> objects) {
-        super(context, resource, objects);
-        this.listCountry = objects;
-        this.mContext = context;
+    int resource;
+    public SpinnerCountryAdapter(Context mContext, int resource,List<Country> listCountry) {
+        super(mContext,resource,listCountry);
+        this.mContext = mContext;
+        this.listCountry = listCountry;
         this.resource = resource;
-        inflter = (LayoutInflater.from(context));
+        inflter = (LayoutInflater.from(mContext));
     }
 
     @Override
@@ -32,10 +32,24 @@ public class SpinerCountryAdapter extends ArrayAdapter<Country> {
     }
 
     @Override
+    public Country getItem(int position) {
+        return listCountry.get(position);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
+
+    @Override
     public View getView(int position,  View convertView, ViewGroup parent) {
-        convertView = inflter.inflate(R.layout.spinnercountry, null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.spinnercountry, parent, false
+            );
+        }
         ImageView imIcon = convertView.findViewById(R.id.imCountry);
-        TextView tvCountry = convertView.findViewById(R.id.tvCountry);
+        TextView tvCountry = convertView.findViewById(R.id.tvLanguage);
         Country country = listCountry.get(position);
         imIcon.setBackgroundResource(country.getIcon());
         tvCountry.setText(country.getName());

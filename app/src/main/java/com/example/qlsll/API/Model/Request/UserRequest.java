@@ -1,5 +1,6 @@
 package com.example.qlsll.API.Model.Request;
 
+import java.sql.Timestamp;
 import java.util.Date;
 public class UserRequest {
     private String passwordHash;
@@ -9,9 +10,12 @@ public class UserRequest {
     private String phone;
     private String address;
     private String lang;
-    private Date dob;
+    private String dob;
 
-    public UserRequest(String mailAddress, String passwordHash, String firstName, String lastName, String phone, String address, Date dob) {
+    public UserRequest() {
+    }
+
+    public UserRequest(String mailAddress, String passwordHash, String firstName, String lastName, String phone, String address, String dob) {
         this.email = mailAddress;
         this.passwordHash = passwordHash;
         this.firstName = firstName;
@@ -69,11 +73,11 @@ public class UserRequest {
         this.address = address;
     }
 
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 

@@ -11,4 +11,3 @@ public class APIBaseService {
         return RetrofitResfulAPI.getInstance().create(AuthService.class);
     }
 }
-// hc cai nay

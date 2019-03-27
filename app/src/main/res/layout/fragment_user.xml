@@ -17,6 +17,6 @@
         app:fabSize="normal"
         app:borderWidth="0dp"
         android:backgroundTint="#18ade4"
-        android:layout_margin="30dp"
+        android:layout_margin="15dp"
         android:layout_gravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>
