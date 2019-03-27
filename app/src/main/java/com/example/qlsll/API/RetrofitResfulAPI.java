@@ -19,6 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitResfulAPI {
+    private static AuthService authService;
     private static String BASE_URL = Constant.BASE_URL_API;
     private static Retrofit INSTANCE = null;
     private static Gson gson;

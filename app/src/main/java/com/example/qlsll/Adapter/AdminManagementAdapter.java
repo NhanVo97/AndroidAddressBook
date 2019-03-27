@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminManagementAdapter extends FragmentPagerAdapter {
+public class   AdminManagementAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private ArrayList<String> listTitle = new ArrayList<>();
     private FragmentManager fragmentManager;
