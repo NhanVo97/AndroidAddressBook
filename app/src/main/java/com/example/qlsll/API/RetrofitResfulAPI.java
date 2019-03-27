@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitResfulAPI {
     private static AuthService authService;
-    private static String BASE_URL = "http://192.168.43.152:8080/api/v1/"; // API Config
+    private static String BASE_URL = "http://192.168.70.167:8080/api/v1/"; // API Config
     private static Retrofit INSTANCE = null;
     private static Gson gson;
     public static Retrofit getInstance() {
