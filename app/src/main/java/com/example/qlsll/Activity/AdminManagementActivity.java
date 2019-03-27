@@ -9,6 +9,7 @@ import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Response.AdminResponse;
 import com.example.qlsll.API.Service.APIBaseService;
+import com.example.qlsll.API.Service.AdminService;
 import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Adapter.AdminManagementAdapter;
 import com.example.qlsll.Fragment.FragmentListAddressBook;
@@ -45,7 +46,7 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
     FragmentListUser fragmentListUser;
     FragmentListAddressBook fragmentListAddressBook;
     FragmentListGroupAddressBook fragmentListGroupAddressBook;
-
+    APIResponse apiResponse;
 
     public static String accessToken;
     private void backToHome()
@@ -86,9 +87,9 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
     private void init()
     {
         AdminManagementAdapter adminManagementAdapter = new AdminManagementAdapter(getSupportFragmentManager());
-        adminManagementAdapter.addFragment(fragmentListUser,"Quản Lý User");
-        adminManagementAdapter.addFragment(fragmentListAddressBook,"Sổ địa chỉ");
-        adminManagementAdapter.addFragment(fragmentListGroupAddressBook,"Nhóm địa chỉ");
+        adminManagementAdapter.addFragment(fragmentListUser,getResources().getString(R.string.user_management));
+        adminManagementAdapter.addFragment(fragmentListAddressBook,getResources().getString(R.string.addressbook));
+        adminManagementAdapter.addFragment(fragmentListGroupAddressBook,getResources().getString(R.string.group_addressbook));
         viewPager.setAdapter(adminManagementAdapter);
         viewPager.setCurrentItem(0);
         viewPager.setOffscreenPageLimit(3);
@@ -101,9 +102,8 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
 
         if(!accessToken.isEmpty())
         {
-            final APIResponse[] apiResponse = {new APIResponse()};
-            UserService userService = APIBaseService.getUserAPIService();
-            userService.getAdminProfile(accessToken)
+            AdminService adminService = APIBaseService.getAdminAPIService();
+            adminService.getAdminProfile(accessToken)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<APIResponse>() {
@@ -114,7 +114,7 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
 
                         @Override
                         public void onNext(APIResponse res) {
-                            apiResponse[0] = res;
+                            apiResponse = res;
                         }
 
                         @Override
@@ -125,14 +125,14 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
 
                         @Override
                         public void onComplete() {
-                            if(apiResponse[0].getStatus() == APIStatus.OK.getCode())
+                            if(apiResponse.getStatus() == APIStatus.OK.getCode())
                             {
-                                AdminResponse adminResponse = new Gson().fromJson(new Gson().toJson((apiResponse[0].getData())), (Type) AdminResponse.class);
+                                AdminResponse adminResponse = new Gson().fromJson(new Gson().toJson((apiResponse.getData())), (Type) AdminResponse.class);
                                 tvUsername.setText(adminResponse.getFirstName());
                             }
                             else
                             {
-                                Response.APIToastError(getApplicationContext(), apiResponse[0].getStatus(), Constant.TOASTSORT);
+                                Response.APIToastError(getApplicationContext(), apiResponse.getStatus(), Constant.TOASTSORT);
                             }
                         }
                     });

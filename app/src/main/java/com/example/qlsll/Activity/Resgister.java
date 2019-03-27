@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
 import com.example.qlsll.API.Service.APIBaseService;
@@ -40,7 +42,8 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     Button btnSignUp;
     TextView tvLogin,tvForgotPassword;
     UserService userService;
-    int day,month,year;
+    String day,month,year;
+    APIResponse apiResponse;
     private boolean validateInput(
             String firstName,String lastName,String email,String phone
             ,String password, String cfpassword
@@ -49,7 +52,7 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
         if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() ||
                password.isEmpty() || cfpassword.isEmpty())
        {
-           Response.toastError(getApplicationContext(),"Không được bỏ trống Input", Constant.TOASTSORT);
+           Response.toastError(getApplicationContext(),getResources().getString(R.string.err_input_invalid), Constant.TOASTSORT);
            return false;
        }
        else
@@ -57,7 +60,7 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
             // check email
            if(!CommonUtil.isEmailFormat(email))
            {
-               Response.toastError(getApplicationContext(),"Email không hợp lệ",Constant.TOASTSORT);
+               Response.toastError(getApplicationContext(),getResources().getString(R.string.err_email_invalid),Constant.TOASTSORT);
                return false;
            }
            // check phone if have
@@ -65,14 +68,14 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
            {
                if(!CommonUtil.isPhoneNumberFormat(phone))
                {
-                   Response.toastError(getApplicationContext(),"Phone không hợp lệ",Constant.TOASTSORT);
+                   Response.toastError(getApplicationContext(),getResources().getString(R.string.err_phone_invalid),Constant.TOASTSORT);
                    return false;
                }
            }
            // password not matches
            if(!password.equals(cfpassword))
            {
-               Response.toastError(getApplicationContext(),"Password không trùng",Constant.TOASTSORT);
+               Response.toastError(getApplicationContext(),getResources().getString(R.string.err_the_same_password),Constant.TOASTSORT);
                return false;
            }
 
@@ -126,21 +129,15 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }
-                    Date birthday = new Date();
-
-                    if(!birthDay.isEmpty())
-                    {
-                        birthday = new Date(edBirthDay.getText().toString());
-                    }
-//                    // UserRequest userRequest = new UserRequest(email,passwordHash,firstName,lastName,phone,address,birthday);
-//                    userRequest.setLang("EN");
-//                    sendToServer(userRequest);
+                    String dob = year+"-"+month+"-"+day;
+                    String lang = "En";
+                    UserRequest userRequest = new UserRequest(lastName,firstName,phone,email,dob,address,lang,passwordHash);
+                    sendToServer(userRequest);
                 }
 
                 break;
             case R.id.birthday :
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-
                 DatePickerDialog dialog = new DatePickerDialog(this, this,
                         calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
@@ -153,16 +150,7 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     private void sendToServer(UserRequest userRequest)
     {
 
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("lastName",userRequest.getLastName());
-        jsonObject.addProperty("firstName", userRequest.getFirstName());
-        jsonObject.addProperty("phone",userRequest.getPhone());
-        jsonObject.addProperty("email",userRequest.getEmail());
-        jsonObject.addProperty("dob",year+"-"+month+"-"+day);
-        jsonObject.addProperty("address",userRequest.getAddress());
-        jsonObject.addProperty("lang", userRequest.getDob().toString());
-        jsonObject.addProperty("passwordHash",userRequest.getPasswordHash());
-        userService.signUpUser(jsonObject).subscribeOn(Schedulers.io())
+        userService.signUpUser(userRequest).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -170,18 +158,22 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
             }
 
             @Override
-            public void onNext(APIResponse apiResponse) {
-                Toast.makeText(Resgister.this, apiResponse.getData()+"", Toast.LENGTH_SHORT).show();
+            public void onNext(APIResponse res) {
+                apiResponse = res;
             }
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(Resgister.this, e+"", Toast.LENGTH_SHORT).show();
+                Response.toastError(Resgister.this, getResources().getString(R.string.register_error),Constant.TOASTSORT);
+                Log.e("APIREGISTERUSER",e.toString());
             }
 
             @Override
             public void onComplete() {
-                Toast.makeText(Resgister.this, "TC", Toast.LENGTH_SHORT).show();
+                if(apiResponse.getStatus() == APIStatus.OK.getCode())
+                    Response.toastSuccess(Resgister.this, getResources().getString(R.string.register_success),Constant.TOASTSORT);
+                else
+                    Response.APIToastError(Resgister.this, apiResponse.getStatus(),Constant.TOASTSORT);
             }
         });
 
@@ -189,19 +181,15 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+        this.day = String.valueOf(dayOfMonth);
+        this.month = month <10 ? "0"+(month+1): String.valueOf(month);
+        this.year = String.valueOf(year);
         edBirthDay.setText(new StringBuilder()
                 .append(dayOfMonth)
                 .append("/").append(month + 1)
                 .append("/").append(year).append(" "));
-        this.day = dayOfMonth;
-        this.month = month;
-        this.year = year;
     }
-
-
-
-
-
     }
 
 

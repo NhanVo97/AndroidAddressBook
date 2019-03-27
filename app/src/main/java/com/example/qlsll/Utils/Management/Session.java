@@ -36,42 +36,5 @@ public class Session {
     public static void setUserResponse(UserResponse userResponse) {
         Session.userResponse = userResponse;
     }
-    public void initUser()
-    {
-        if(!accessToken.isEmpty())
-        {
-            UserService userService = APIBaseService.getUserAPIService();
-            userService.getAdminProfile(accessToken)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<APIResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
 
-                        }
-
-                        @Override
-                        public void onNext(APIResponse res) {
-                            apiResponse = res;
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Response.toastError(mContext,"Fail to call API "+e.toString(),Constant.TOASTSORT);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            if(apiResponse.getStatus() == APIStatus.OK.getCode())
-                            {
-                                Session.setUserResponse(new Gson().fromJson(new Gson().toJson((apiResponse.getData())), (Type) UserResponse.class));
-                            }
-                            else
-                            {
-                                Response.APIToastError(mContext,apiResponse.getStatus(),Constant.TOASTSORT);
-                            }
-                        }
-                    });
-        }
-    }
 }

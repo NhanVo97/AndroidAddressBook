@@ -28,4 +28,14 @@
     <string name="delete_success">Xóa thành công</string>
     <string name="delete_error">Xóa thất bại</string>
     <string name="login_fail">Đăng nhập thất bại</string>
+    <string name="err_phone_invalid">Điện thoai không hợp lệ</string>
+    <string name="err_email_invalid">Emial không hợp lệ</string>
+    <string name="err_phone_">Email không hợp lệ</string>
+    <string name="err_the_same_password">Mật khẩu không trùng</string>
+    <string name="register_success">Đăng Ký Thành Công</string>
+    <string name="register_error">Đăng Ký Thất bại</string>
+    <string name="err_get_data">Lấy dữ liệu thất bại</string>
+    <string name="user_management">"Quản Lý User"</string>
+    <string name="addressbook">"Sổ Địa Chỉ"</string>
+    <string name="group_addressbook">"Nhóm Địa Chỉ"</string>
 </resources>

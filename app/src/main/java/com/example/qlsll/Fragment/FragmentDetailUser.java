@@ -17,10 +17,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
+import com.example.qlsll.API.Service.AdminService;
 import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Adapter.SpinnerCountryAdapter;
 import com.example.qlsll.Model.Country;
@@ -49,10 +51,11 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     UserResponse currentResponse;
     String accessToken = "";
     UpdateAPI updateAPI;
-    UserService userService;
+    AdminService adminService;
     FragmentManager fragmentManager;
     Country country;
     List<Country> listCountry;
+    APIResponse apiResponse;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
         btnUpdate.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
         edbirthday.setOnClickListener(this);
-        userService = APIBaseService.getUserAPIService();
+        adminService = APIBaseService.getAdminAPIService();
         fragmentManager = getFragmentManager();
         if(currentResponse!=null)
         {
@@ -140,7 +143,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     }
 
     private void handleDeleteUser() {
-        userService.deleteUserByAdmin(accessToken,currentResponse.getUserId())
+        adminService.deleteUserByAdmin(accessToken,currentResponse.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<APIResponse>() {
@@ -150,8 +153,8 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
                     }
 
                     @Override
-                    public void onNext(APIResponse apiResponse) {
-
+                    public void onNext(APIResponse res) {
+                        apiResponse = res;
                     }
 
                     @Override
@@ -162,10 +165,16 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onComplete() {
-                        Response.toastSuccess(getContext(),getResources().getString(R.string.delete_success),Constant.TOASTSORT);
-                        // go back
-                        fragmentManager.popBackStack();
-                        updateAPI.checkUpdate(true);
+                        if(apiResponse.getStatus() == APIStatus.OK.getCode())
+                        {
+                            Response.toastSuccess(getContext(),getResources().getString(R.string.delete_success),Constant.TOASTSORT);
+                            // go back
+                            fragmentManager.popBackStack();
+                            updateAPI.checkUpdate(true);
+                        }
+                        else
+                            Response.APIToastError(getContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+
                     }
                 });
 
@@ -194,7 +203,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
             }
 
             userRequest.setLang(country.getKey());
-            userService.updateUserByAdmin(accessToken,userRequest,currentResponse.getUserId())
+            adminService.updateUserByAdmin(accessToken,userRequest,currentResponse.getUserId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<APIResponse>() {
@@ -216,10 +225,15 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
 
                         @Override
                         public void onComplete() {
-                            Response.toastSuccess(getContext(),getResources().getString(R.string.update_success),Constant.TOASTSORT);
-                            // go back
-                            fragmentManager.popBackStack();
-                            updateAPI.checkUpdate(true);
+                            if(apiResponse.getStatus() == APIStatus.OK.getCode()) {
+                                Response.toastSuccess(getContext(), getResources().getString(R.string.update_success), Constant.TOASTSORT);
+                                // go back
+                                fragmentManager.popBackStack();
+                                updateAPI.checkUpdate(true);
+                            }
+                            else
+                                Response.APIToastError(getContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+
                         }
                     });
         }

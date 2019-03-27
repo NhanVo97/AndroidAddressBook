@@ -10,4 +10,7 @@ public class APIBaseService {
     public static AuthService getAuthAPIService() {
         return RetrofitResfulAPI.getInstance().create(AuthService.class);
     }
+    public static AdminService getAdminAPIService() {
+        return RetrofitResfulAPI.getInstance().create(AdminService.class);
+    }
 }

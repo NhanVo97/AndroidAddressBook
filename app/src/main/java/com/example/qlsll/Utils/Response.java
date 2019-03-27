@@ -1,6 +1,7 @@
 package com.example.qlsll.Utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.qlsll.API.APIStatus;
@@ -24,6 +25,7 @@ public class Response {
             }
         }
         Toast.makeText(context,errorStatus,timeShow).show();
+        Log.e("API_ERR_"+status,errorStatus);
 
     }
 }
