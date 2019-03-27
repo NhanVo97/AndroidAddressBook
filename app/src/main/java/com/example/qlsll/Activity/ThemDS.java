@@ -28,13 +28,13 @@ public class ThemDS extends AppCompatActivity {
         them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ThemDS.this, DSActivity.class);
-                String ten1=ten.getText().toString();
-                String mail1=mail.getText().toString();
-                intent.putExtra("ten",ten1);
-                intent.putExtra("mail",mail1);
-                //startActivity(intent);
-                ThemDS.this.startActivity(intent);
+//                //Intent intent=new Intent(ThemDS.this, ThemDS.class);
+//                String ten1=ten.getText().toString();
+//                String mail1=mail.getText().toString();
+//                intent.putExtra("ten",ten1);
+//                intent.putExtra("mail",mail1);
+//                //startActivity(intent);
+//                ThemDS.this.startActivity(intent);
             }
         });
     }

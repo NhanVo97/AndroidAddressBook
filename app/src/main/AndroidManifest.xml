@@ -13,12 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.AdminManagementActivity" />
-        <activity android:name=".Activity.suaTT" />
-        <activity android:name=".Activity.thong_tin" />
         <activity android:name=".Activity.Them_Nhom" />
         <activity android:name=".Activity.ThemDS" />
         <activity android:name=".Activity.Resgister" />
-        <activity android:name=".Activity.DSActivity" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
