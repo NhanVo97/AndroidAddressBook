@@ -1,64 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/MainFrame">
-    <LinearLayout
-        android:background="#942196F3"
-        android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_fragmentuser">
+    <ListView
+        android:id="@+id/lv_addmenber"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:textColorHint="#FFF"
-            android:padding="10dp"
-            android:background="#00000000"
-            android:drawablePadding="10dp"
-            android:drawableLeft="@drawable/search"
-            android:hint="@string/searchbar"
-            android:layout_weight="8"
-            android:id="@+id/searchBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:textSize="16dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="User"
-            android:textColor="#FFF"
-            android:textStyle="bold" />
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/avatar"
-            android:layout_gravity="center"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/noavt"
-            app:civ_border_color="#3F51B5"
-            app:civ_border_width="1dp" />
+        android:layout_height="match_parent" />
 
-
-    </LinearLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_height="0dp"
-        android:layout_width="match_parent"
-        android:layout_weight="1">
-    </android.support.v4.view.ViewPager>
-    <android.support.design.widget.TabLayout
-        app:tabTextAppearance="@style/MyCustomTabText"
-        android:id="@+id/tablayour"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="#2f80ed"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#2f80ed"
-        app:tabTextColor="#333"
-        app:tabIndicatorHeight="2dp"
-        app:tabGravity="fill">
-    </android.support.design.widget.TabLayout>
-</LinearLayout>
+        android:src="@drawable/add"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        android:backgroundTint="#18ade4"
+        android:layout_margin="15dp"
+        android:layout_gravity="bottom|right|end" />
+</android.support.design.widget.CoordinatorLayout>
