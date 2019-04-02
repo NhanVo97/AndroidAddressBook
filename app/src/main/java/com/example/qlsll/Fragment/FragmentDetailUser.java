@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
+import com.example.qlsll.API.Model.Response.AdminResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AdminService;
@@ -42,13 +43,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class FragmentDetailUser extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+public class FragmentDetailUser extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener,UpdateAPI {
     View v;
     EditText edFirstName,edLastName,edEmail,edbirthday,edAddress,edPhone;
     Spinner spLanguage;
     TextView tvInfoOf,tvCreateDate,tvStatus;
     Button btnDelete,btnUpdate;
     UserResponse currentResponse;
+    AdminResponse adminResponse;
     String accessToken = "";
     UpdateAPI updateAPI;
     AdminService adminService;
@@ -60,9 +62,6 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_detailuser,container,false);
-         currentResponse = (UserResponse) getArguments().getSerializable("User");
-        accessToken = getArguments().getString("accessToken");
-        updateAPI= (UpdateAPI) getContext();
         // Anh Xa
         edFirstName = v.findViewById(R.id.firstNameUser);
         edLastName = v.findViewById(R.id.lastNameUser);
@@ -81,6 +80,35 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
         edbirthday.setOnClickListener(this);
         adminService = APIBaseService.getAdminAPIService();
         fragmentManager = getFragmentManager();
+        boolean isAdmin = getArguments().getBoolean("isAdmin",false);
+        accessToken = getArguments().getString("accessToken");
+        updateAPI = (UpdateAPI) getContext();
+        if(isAdmin) {
+            adminResponse = (AdminResponse) getArguments().getSerializable("Admin");
+            initDataAdminDetail(adminResponse);
+        }
+        else {
+            currentResponse = (UserResponse) getArguments().getSerializable("User");
+            initDataUserDetail(currentResponse);
+        }
+
+
+        return v;
+    }
+
+    private void initDataAdminDetail(AdminResponse adminResponse) {
+        if(adminResponse!=null)
+        {
+            tvInfoOf.setText(getResources().getString(R.string.informationOF) +" " + adminResponse.getFirstName()+" "+adminResponse.getLastName());
+            edFirstName.setText(adminResponse.getFirstName());
+            edLastName.setText(adminResponse.getLastName());
+            edEmail.setText(adminResponse.getEmail());
+            tvCreateDate.setText(DateUtils.formatDateString(adminResponse.getCreateDate(),true));
+            tvStatus.setText(CommonUtil.getStatus(adminResponse.getStatus()));
+        }
+    }
+
+    private void initDataUserDetail(UserResponse currentResponse) {
         if(currentResponse!=null)
         {
             // check if response null,return  ""
@@ -99,10 +127,10 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
             edAddress.setText(currentResponse.getAddress());
             edbirthday.setText(DateUtils.formatDateString(currentResponse.getDob(),false));
             tvCreateDate.setText(DateUtils.formatDateString(currentResponse.getSignupDate(),true));
-            tvInfoOf.setText(getResources().getString(R.string.informationOF) +" " + currentResponse.getFirstName());
+            tvInfoOf.setText(getResources().getString(R.string.informationOF) +" " + currentResponse.getFirstName()+" "+currentResponse.getLastName());
             tvStatus.setText(CommonUtil.getStatus(currentResponse.getStatus()));
             // set spinner value country language
-           listCountry = new ArrayList<>();
+            listCountry = new ArrayList<>();
             listCountry.add(new Country(R.drawable.en,"En","English"));
             listCountry.add(new Country(R.drawable.vn,"Vn","Việt Nam"));
             SpinnerCountryAdapter spinerCountryAdapter = new SpinnerCountryAdapter(getContext(),R.layout.spinnercountry,listCountry);
@@ -118,7 +146,6 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
             }
 
         }
-        return v;
     }
 
     @Override
@@ -201,8 +228,11 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
             {
                 userRequest.setDob(DateUtils.convertToUTC(edbirthday.getText().toString()));
             }
-
-            userRequest.setLang(country.getKey());
+            if(country!=null)
+            {
+                userRequest.setLang(country.getKey());
+            }
+            Log.e("AAA",accessToken);
             adminService.updateUserByAdmin(accessToken,userRequest,currentResponse.getUserId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -213,7 +243,8 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
                         }
 
                         @Override
-                        public void onNext(APIResponse apiResponse) {
+                        public void onNext(APIResponse res) {
+                            apiResponse = res;
 
                         }
 
@@ -258,6 +289,11 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void checkUpdate(boolean isCheck) {
 
     }
 }

@@ -3,7 +3,9 @@ package com.example.qlsll.API.Model.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AdminResponse {
+import java.io.Serializable;
+
+public class AdminResponse implements Serializable {
     @SerializedName("adminId")
     @Expose
     private String adminId;

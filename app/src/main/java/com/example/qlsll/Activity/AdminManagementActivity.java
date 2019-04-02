@@ -1,40 +1,24 @@
 package com.example.qlsll.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-
-import com.example.qlsll.API.APIStatus;
-import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Response.AdminResponse;
-import com.example.qlsll.API.Service.APIBaseService;
-import com.example.qlsll.API.Service.AdminService;
-import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Adapter.AdminManagementAdapter;
 import com.example.qlsll.Fragment.FragmentListAddressBook;
 import com.example.qlsll.Fragment.FragmentListGroupAddressBook;
 import com.example.qlsll.Fragment.FragmentListUser;
 import com.example.qlsll.Fragment.UpdateAPI;
 import com.example.qlsll.R;
-import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.Management.Session;
-import com.example.qlsll.Utils.Response;
 import com.google.gson.Gson;
-
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
-
-import java.lang.reflect.Type;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AdminManagementActivity extends AppCompatActivity implements UpdateAPI {
 
@@ -46,9 +30,8 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
     FragmentListUser fragmentListUser;
     FragmentListAddressBook fragmentListAddressBook;
     FragmentListGroupAddressBook fragmentListGroupAddressBook;
-    APIResponse apiResponse;
-
-    public static String accessToken;
+    Gson gson = new Gson();
+    String accessToken;
     private void backToHome()
     {
         Intent backHome = new Intent(AdminManagementActivity.this,MainActivity.class);
@@ -66,23 +49,39 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
         searchBar = findViewById(R.id.searchBar);
         Intent intent = getIntent();
         accessToken = intent.getStringExtra("accessToken");
-        // send to fragment
-        Bundle bundle = new Bundle();
-        bundle.putString("accessToken",accessToken);
-         fragmentListUser = new FragmentListUser();
-        fragmentListUser.setArguments(bundle);
         // init tablayout data
+        fragmentListUser = new FragmentListUser();
         fragmentListAddressBook = new FragmentListAddressBook();
         fragmentListGroupAddressBook = new FragmentListGroupAddressBook();
         init();
         // check role
         boolean isAdmin = intent.getBooleanExtra("isAdmin",false);
-        if(isAdmin) handleAdmin(accessToken); else handleUser();
+        if(isAdmin) handleAdmin(); else handleUser();
     }
 
     private void handleUser() {
         // user can't active in page admin,go back user to home
         backToHome();
+    }
+    private void handleAdmin()
+    {
+        Session.initAdmin(getApplicationContext(),accessToken);
+        SharedPreferences mPrefs = getSharedPreferences("Admin",MODE_PRIVATE);
+        if(mPrefs!=null){
+            String json = mPrefs.getString("Admin", "");
+            AdminResponse adminResponse = gson.fromJson(json, AdminResponse.class);
+            if(adminResponse!=null){
+                Bundle bundleAdmin = new Bundle();
+                bundleAdmin.putSerializable("Admin",adminResponse);
+                bundleAdmin.putString("accessToken",accessToken);
+                fragmentListGroupAddressBook.setArguments(bundleAdmin);
+                fragmentListAddressBook.setArguments(bundleAdmin);
+                fragmentListUser.setArguments(bundleAdmin);
+            }
+            else {
+                backToHome();
+            }
+        }
     }
     private void init()
     {
@@ -98,50 +97,10 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
         tabLayout.getTabAt(1).setIcon(R.drawable.addressbook);
         tabLayout.getTabAt(2).setIcon(R.drawable.groupaddressbook);
     }
-    private void handleAdmin(String accessToken) {
 
-        if(!accessToken.isEmpty())
-        {
-            AdminService adminService = APIBaseService.getAdminAPIService();
-            adminService.getAdminProfile(accessToken)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<APIResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(APIResponse res) {
-                            apiResponse = res;
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Response.toastError(getApplicationContext(),"Fail to call API "+e.toString(), Constant.TOASTSORT);
-                            backToHome();
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            if(apiResponse.getStatus() == APIStatus.OK.getCode())
-                            {
-                                AdminResponse adminResponse = new Gson().fromJson(new Gson().toJson((apiResponse.getData())), (Type) AdminResponse.class);
-                                tvUsername.setText(adminResponse.getFirstName());
-                            }
-                            else
-                            {
-                                Response.APIToastError(getApplicationContext(), apiResponse.getStatus(), Constant.TOASTSORT);
-                            }
-                        }
-                    });
-        }
-
-    }
 
     @Override
     public void checkUpdate(boolean isCheck) {
-       fragmentListUser.initData(accessToken);
+       fragmentListUser.initData(accessToken,"");
     }
 }

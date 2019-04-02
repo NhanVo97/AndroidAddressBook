@@ -45,7 +45,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         UserResponse userResponse = new Gson().fromJson(new Gson().toJson((listUser.get(position))),(Type) UserResponse.class);
-        holder.username.setText(userResponse.getFirstName());
+        holder.username.setText(userResponse.getFirstName()+" "+userResponse.getLastName());
         holder.mail.setText(userResponse.getMailAddress());
         int index = position + 1;
         holder.count.setText(String.valueOf(index));
@@ -54,7 +54,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("User", (Serializable) userResponse);
+                bundle.putSerializable("User", userResponse);
                 bundle.putString("accessToken",accessToken);
                 FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
                 fragmentDetailUser.setArguments(bundle);

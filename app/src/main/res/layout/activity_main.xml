@@ -1,92 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
-    <TextView
-        android:textSize="40dp"
-        android:gravity="center"
-        android:background="#18ade4"
-        android:textColor="#FFFFFF"
-        android:text="Quản Lý Sổ Địa Chỉ"
-        android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:layout_height="100dp" />
-    <TextView
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:textAlignment="center"
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:textColor="#3F51B5"
-        android:layout_marginBottom="10dp"
-        android:text="ĐĂNG NHẬP HỆ THỐNG"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/ettk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="Email"
-        android:padding="10dp"
-        android:text="Admin" />
-
-    <EditText
-        android:id="@+id/etpass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:text="123456" />
-    <CheckBox
-        android:layout_marginBottom="10dp"
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nhớ mật khẩu "/>
     <LinearLayout
-
-       android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
+        android:id="@+id/linearLayoutLogin"
+        android:padding="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-           android:layout_margin="10dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:padding="20dp"
+            android:textSize="40dp"
+            android:gravity="center"
             android:background="#18ade4"
             android:textColor="#FFFFFF"
-            android:layout_weight="2"
-            android:id="@+id/btdn"
-            android:layout_width="50dp"
+            android:text="Quản Lý Sổ Địa Chỉ"
+            android:layout_width="match_parent"
+            android:textStyle="bold"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:textAlignment="center"
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ĐĂNG NHẬP" />
 
-        <Button
-            android:layout_margin="10dp"
-            android:background="#18ade4"
-            android:textColor="#FFFFFF"
-            android:layout_weight="2"
-            android:id="@+id/btdk"
-            android:layout_width="50dp"
+            android:textColor="#3F51B5"
+            android:layout_marginBottom="10dp"
+            android:text="ĐĂNG NHẬP HỆ THỐNG"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/ettk"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:text="ĐĂNG KÍ"/>
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="Email"
+            android:padding="10dp"
+            android:text="Admin" />
+
+        <EditText
+            android:id="@+id/etpass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:text="123456" />
+        <CheckBox
+            android:layout_marginBottom="10dp"
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhớ mật khẩu "/>
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_margin="10dp"
+                android:background="#18ade4"
+                android:textColor="#FFFFFF"
+                android:layout_weight="2"
+                android:id="@+id/btdn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="ĐĂNG NHẬP" />
+
+            <Button
+                android:layout_margin="10dp"
+                android:background="#18ade4"
+                android:textColor="#FFFFFF"
+                android:layout_weight="2"
+                android:id="@+id/btdk"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="ĐĂNG KÍ"/>
+        </LinearLayout>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quên mật khẩu ? "/>
     </LinearLayout>
-   <TextView
-        android:layout_marginLeft="20dp"
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quên mật khẩu ? "/>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearProcess"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+        <TextView
+            android:textColor="#D81B60"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:text="Loading..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 
-</LinearLayout>
+</FrameLayout>

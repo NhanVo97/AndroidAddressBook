@@ -1,13 +1,20 @@
 package com.example.qlsll.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.qlsll.API.APIStatus;
@@ -35,33 +42,34 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
-    EditText edAccount ;
+    EditText edAccount;
     EditText edPassword;
     CheckBox cbRemember;
-    Button btnLogin,btnSignUp;
+    Button btnLogin, btnSignUp;
     boolean check;
     APIResponse apiResponse;
-    private boolean validateInput(String account,String password)
-    {
-        if(account.isEmpty() || password.isEmpty())
-        {
-            Response.toastError(getApplicationContext(),getResources().getString(R.string.err_input_invalid), Constant.TOASTSORT);
+    LinearLayout linearLogin,linearProcess;
+    private boolean validateInput(String account, String password) {
+        if (account.isEmpty() || password.isEmpty()) {
+            Response.toastError(getApplicationContext(), getResources().getString(R.string.err_input_invalid), Constant.TOASTSORT);
             return false;
         }
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Anh Xa
-        edAccount= findViewById(R.id.ettk);
-        edPassword=findViewById(R.id.etpass);
+        edAccount = findViewById(R.id.ettk);
+        edPassword = findViewById(R.id.etpass);
         btnLogin = findViewById(R.id.btdn);
         btnSignUp = findViewById(R.id.btdk);
         cbRemember = findViewById(R.id.checkBox);
-        // Check
-
+        linearLogin = findViewById(R.id.linearLayoutLogin);
+        linearProcess = findViewById(R.id.linearProcess);
+        // Check Data if have Token
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 if(validateInput(account,password))
                 {
                     try {
+                        linearLogin.setAlpha((float) 0.6);
+                        linearLogin.setEnabled(false);
+                        linearProcess.setVisibility(View.VISIBLE);
                         handleLogin(account,password,check);
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();

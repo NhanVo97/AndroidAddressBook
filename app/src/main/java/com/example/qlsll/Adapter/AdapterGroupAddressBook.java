@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.qlsll.API.Model.Response.AddressBookResponse;
+import com.example.qlsll.API.Model.Response.GroupAddressBookResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.Activity.MainActivity;
 import com.example.qlsll.Fragment.FragmentDetailUser;
@@ -24,13 +25,13 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class AdapterAddressBook extends RecyclerView.Adapter<AdapterAddressBook.ViewHolder> {
-    List<AddressBookResponse> listAddressBook;
+public class AdapterGroupAddressBook extends RecyclerView.Adapter<AdapterGroupAddressBook.ViewHolder> {
+    List<GroupAddressBookResponse> listGroup;
     Context context;
     FragmentManager fragmentManager;
     String accessToken;
-    public AdapterAddressBook(List<AddressBookResponse> listAddressBook, Context context, FragmentManager fragmentManager,String accessToken) {
-        this.listAddressBook = listAddressBook;
+    public AdapterGroupAddressBook(List<GroupAddressBookResponse> listGroup, Context context, FragmentManager fragmentManager,String accessToken) {
+        this.listGroup = listGroup;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.accessToken = accessToken;
@@ -39,23 +40,23 @@ public class AdapterAddressBook extends RecyclerView.Adapter<AdapterAddressBook.
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.itemaddressbook,parent,false);
+        View itemView = layoutInflater.inflate(R.layout.itemgroup,parent,false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        AddressBookResponse addressBookResponse = new Gson().fromJson(new Gson().toJson((listAddressBook.get(position))),(Type) AddressBookResponse.class);
-        holder.username.setText(addressBookResponse.getFirstName()+" "+addressBookResponse.getLastName());
-        holder.mail.setText(addressBookResponse.getEmail());
+        GroupAddressBookResponse groupAddressBookResponse = new Gson().fromJson(new Gson().toJson((listGroup.get(position))),(Type) GroupAddressBookResponse.class);
+        holder.nameGroup.setText(groupAddressBookResponse.getName());
+        holder.description.setText(groupAddressBookResponse.getDescription());
         int index = position + 1;
         holder.count.setText(String.valueOf(index));
-        holder.layoutAddressBook.setOnClickListener(new View.OnClickListener() {
+        holder.layoutGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("AddressBook", addressBookResponse);
+                bundle.putSerializable("AddressBook", groupAddressBookResponse);
                 bundle.putString("accessToken",accessToken);
                 FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
                 fragmentDetailUser.setArguments(bundle);
@@ -67,20 +68,20 @@ public class AdapterAddressBook extends RecyclerView.Adapter<AdapterAddressBook.
     @Override
     public int getItemCount()
     {
-        return listAddressBook.size();
+        return listGroup.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView username;
-        TextView mail;
+        TextView nameGroup;
+        TextView description;
         TextView count;
-        ConstraintLayout layoutAddressBook;
+        ConstraintLayout layoutGroup;
         public ViewHolder(View itemView){
             super(itemView);
-            username = itemView.findViewById(R.id.tvUserName);
-            mail= itemView.findViewById(R.id.tvEmail);
+            nameGroup = itemView.findViewById(R.id.tvNameGroup);
+            description= itemView.findViewById(R.id.tvDescription);
+            layoutGroup = itemView.findViewById(R.id.layoutGroupAddressBook);
             count = itemView.findViewById(R.id.tvSTT);
-            layoutAddressBook = itemView.findViewById(R.id.layoutAddressBook);
         }
     }
     public interface OnCallBack{

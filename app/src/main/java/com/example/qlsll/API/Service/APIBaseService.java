@@ -13,4 +13,10 @@ public class APIBaseService {
     public static AdminService getAdminAPIService() {
         return RetrofitResfulAPI.getInstance().create(AdminService.class);
     }
+    public static AddressBookService getAddressBookAPIService() {
+        return RetrofitResfulAPI.getInstance().create(AddressBookService.class);
+    }
+    public static GroupAddressBookService getGroupAddressBookAPIService() {
+        return RetrofitResfulAPI.getInstance().create(GroupAddressBookService.class);
+    }
 }
