@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         if(apiResponse.getStatus() == APIStatus.OK.getCode())
                         {
                             Intent intent = new Intent(MainActivity.this,AdminManagementActivity.class);
+                            Log.e("AAA",apiResponse.getData().toString());
                             // send to activity
                             intent.putExtra("accessToken",apiResponse.getData().toString());
                             intent.putExtra("isAdmin",true);

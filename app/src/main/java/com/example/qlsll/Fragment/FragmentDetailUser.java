@@ -133,7 +133,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
             listCountry = new ArrayList<>();
             listCountry.add(new Country(R.drawable.en,"En","English"));
             listCountry.add(new Country(R.drawable.vn,"Vn","Việt Nam"));
-            SpinnerCountryAdapter spinerCountryAdapter = new SpinnerCountryAdapter(getContext(),R.layout.spinnercountry,listCountry);
+            SpinnerCountryAdapter spinerCountryAdapter = new SpinnerCountryAdapter(getContext(),listCountry);
             spLanguage.setAdapter(spinerCountryAdapter);
             // check and select value language of user
             for(int i = 0; i<listCountry.size();i++)

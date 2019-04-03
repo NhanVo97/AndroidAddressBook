@@ -51,8 +51,13 @@ public class AdminManagementActivity extends AppCompatActivity implements Update
         accessToken = intent.getStringExtra("accessToken");
         // init tablayout data
         fragmentListUser = new FragmentListUser();
+        Bundle bundle = new Bundle();
+        bundle.putString("accessToken",accessToken);
+        fragmentListUser.setArguments(bundle);
         fragmentListAddressBook = new FragmentListAddressBook();
+        fragmentListAddressBook.setArguments(bundle);
         fragmentListGroupAddressBook = new FragmentListGroupAddressBook();
+        fragmentListGroupAddressBook.setArguments(bundle);
         init();
         // check role
         boolean isAdmin = intent.getBooleanExtra("isAdmin",false);
