@@ -1,39 +1,30 @@
 package com.example.qlsll.Activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.AuthRequest;
-import com.example.qlsll.API.Model.Request.UserRequest;
-import com.example.qlsll.API.Model.Response.SessionReponse;
-import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AuthService;
-import com.example.qlsll.API.Service.UserService;
-import com.example.qlsll.Fragment.FragmentListUser;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.MD5Hash;
+import com.example.qlsll.Utils.Management.Session;
 import com.example.qlsll.Utils.Response;
-import com.google.gson.JsonObject;
 
-import java.io.Serializable;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.NoSuchAlgorithmException;
 
 import io.reactivex.Observer;
@@ -69,7 +60,18 @@ public class MainActivity extends AppCompatActivity {
         cbRemember = findViewById(R.id.checkBox);
         linearLogin = findViewById(R.id.linearLayoutLogin);
         linearProcess = findViewById(R.id.linearProcess);
-        // Check Data if have Token
+        // Check Session if have Token
+        SharedPreferences sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+        if(sharedPreferences!=null){
+           String json = sharedPreferences.getString("User","");
+           String token = sharedPreferences.getString("Token","");
+           if(!json.isEmpty() && !token.isEmpty()){
+               Session session = new Session(token,getApplicationContext());
+               if(session.initUser()){
+                   GoManagement();
+               }
+           }
+        }
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,13 +103,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void GoManagement() {
+        Intent intent = new Intent(this,ManagementActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void handleLogin(String account, String password,boolean check) throws NoSuchAlgorithmException {
         AuthService authService = APIBaseService.getAuthAPIService();
         AuthRequest authRequest = new AuthRequest();
         authRequest.setAccount(account);
         authRequest.setPasswordHash(MD5Hash.MD5Encrypt(password));
         authRequest.setKeepLogin(check);
-        authService.AdminLogin(authRequest)
+        authService.authLogin(authRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<APIResponse>() {
@@ -124,19 +132,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Response.toastError(getApplicationContext(),getResources().getString(R.string.login_fail),Constant.TOASTSORT);
-                        Log.e("API_LOGIN_ADMIN",e.toString());
+                        Log.e("API_LOGIN",e.toString());
                     }
 
                     @Override
                     public void onComplete() {
                         if(apiResponse.getStatus() == APIStatus.OK.getCode())
                         {
-                            Intent intent = new Intent(MainActivity.this,AdminManagementActivity.class);
-                            Log.e("AAA",apiResponse.getData().toString());
-                            // send to activity
-                            intent.putExtra("accessToken",apiResponse.getData().toString());
-                            intent.putExtra("isAdmin",true);
-                            startActivity(intent);
+                            Session session = new Session(apiResponse.getData().toString(),getApplicationContext());
+                            if(session.initUser()){
+                                GoManagement();
+                            }else {
+
+                            }
+
                         }
                         else
                         {

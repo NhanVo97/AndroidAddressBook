@@ -4,9 +4,13 @@ public class Constant {
     // ID ADMIN
     public static final String ADMIN_ID = "Admin";
     // API
-    public static final String BASE_URL_API = "http://192.168.43.152:8080/api/v1/";
+    public static final String BASE_URL_API = "http://192.168.42.107:8080/api/v1/";
     // Time Toast
     public static final int TOASTSORT = 0;
     public static final int TOASTLONG = 1;
+    // Key search
+    public static final int SEARCH_USER = 1;
+    public static final int SEARCH_ADDRESSBOOK = 2;
+    public static final int SEARCH_GROUP = 3;
 
 }

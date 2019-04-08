@@ -38,4 +38,7 @@
     <string name="user_management">"Quản Lý User"</string>
     <string name="addressbook">"Sổ Địa Chỉ"</string>
     <string name="group_addressbook">"Nhóm Địa Chỉ"</string>
+    <string name="title_back_dialog">Bạn đang muốn thoát ứng dụng?</string>
+    <string name="accept">Đồng ý</string>
+    <string name="close">Đóng lại</string>
 </resources>

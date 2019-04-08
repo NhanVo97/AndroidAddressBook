@@ -4,18 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.Activity.MainActivity;
+import com.example.qlsll.Activity.ManagementActivity;
 import com.example.qlsll.Fragment.FragmentDetailUser;
 import com.example.qlsll.Fragment.FragmentListUser;
+import com.example.qlsll.Fragment.HideModule;
 import com.example.qlsll.R;
 import com.google.gson.Gson;
 
@@ -58,7 +63,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
                 bundle.putString("accessToken",accessToken);
                 FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
                 fragmentDetailUser.setArguments(bundle);
-                fragmentTransaction.replace(R.id.layout_fragmentuser,fragmentDetailUser).addToBackStack("tag").commit();
+                fragmentTransaction.replace(R.id.MainFrame,fragmentDetailUser).addToBackStack("tag").commit();
             }
         });
     }

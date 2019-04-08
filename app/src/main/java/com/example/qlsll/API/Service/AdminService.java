@@ -15,8 +15,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AdminService {
-    @GET("admin/profile")
-    Observable<APIResponse> getAdminProfile(@Header("X-Access-Token") String token);
     @POST("admin/user/list")
     Observable<APIResponse> getListUserByAdmin(@Header("X-Access-Token") String token,@Body PageRequest pageRequest);
     @PUT("admin/user/{id}")

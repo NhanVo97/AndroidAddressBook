@@ -20,11 +20,9 @@ import android.widget.TextView;
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
-import com.example.qlsll.API.Model.Response.AdminResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AdminService;
-import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Adapter.SpinnerCountryAdapter;
 import com.example.qlsll.Model.Country;
 import com.example.qlsll.R;
@@ -50,14 +48,13 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     TextView tvInfoOf,tvCreateDate,tvStatus;
     Button btnDelete,btnUpdate;
     UserResponse currentResponse;
-    AdminResponse adminResponse;
     String accessToken = "";
     UpdateAPI updateAPI;
-    AdminService adminService;
     FragmentManager fragmentManager;
     Country country;
     List<Country> listCountry;
     APIResponse apiResponse;
+    AdminService adminService;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -80,32 +77,11 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
         edbirthday.setOnClickListener(this);
         adminService = APIBaseService.getAdminAPIService();
         fragmentManager = getFragmentManager();
-        boolean isAdmin = getArguments().getBoolean("isAdmin",false);
         accessToken = getArguments().getString("accessToken");
         updateAPI = (UpdateAPI) getContext();
-        if(isAdmin) {
-            adminResponse = (AdminResponse) getArguments().getSerializable("Admin");
-            initDataAdminDetail(adminResponse);
-        }
-        else {
-            currentResponse = (UserResponse) getArguments().getSerializable("User");
-            initDataUserDetail(currentResponse);
-        }
-
-
+        currentResponse = (UserResponse) getArguments().getSerializable("User");
+        initDataUserDetail(currentResponse);
         return v;
-    }
-
-    private void initDataAdminDetail(AdminResponse adminResponse) {
-        if(adminResponse!=null)
-        {
-            tvInfoOf.setText(getResources().getString(R.string.informationOF) +" " + adminResponse.getFirstName()+" "+adminResponse.getLastName());
-            edFirstName.setText(adminResponse.getFirstName());
-            edLastName.setText(adminResponse.getLastName());
-            edEmail.setText(adminResponse.getEmail());
-            tvCreateDate.setText(DateUtils.formatDateString(adminResponse.getCreateDate(),true));
-            tvStatus.setText(CommonUtil.getStatus(adminResponse.getStatus()));
-        }
     }
 
     private void initDataUserDetail(UserResponse currentResponse) {
@@ -296,4 +272,5 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     public void checkUpdate(boolean isCheck) {
 
     }
+
 }

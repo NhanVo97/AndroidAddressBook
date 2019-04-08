@@ -23,5 +23,6 @@ import retrofit2.http.Query;
 public interface UserService {
     @POST("user/signup")
     Observable<APIResponse> signUpUser(@Body UserRequest userRequest);
-
+    @GET("user/profile")
+    Observable<APIResponse> getProfileUser(@Header("X-Access-Token") String accessToken);
 }

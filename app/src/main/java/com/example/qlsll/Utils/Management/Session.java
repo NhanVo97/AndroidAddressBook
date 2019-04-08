@@ -1,19 +1,18 @@
 package com.example.qlsll.Utils.Management;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
-import com.example.qlsll.API.Model.Response.AdminResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
-import com.example.qlsll.API.Service.AdminService;
 import com.example.qlsll.API.Service.UserService;
+import com.example.qlsll.Activity.MainActivity;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.Response;
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 
 import java.lang.reflect.Type;
 
@@ -24,18 +23,20 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Session {
     private Context mContext;
-    private String accessToken;
-    private static APIResponse apiResponse;
+    private  String accessToken;
+    private  APIResponse apiResponse;
+    private SharedPreferences sharedPreferences;
     public Session(String accessToken,Context mContext) {
         this.mContext = mContext;
         this.accessToken = accessToken;
+        sharedPreferences = mContext.getSharedPreferences("User",Context.MODE_PRIVATE);
     }
-    public static void initAdmin(Context mContext,String accessToken) {
+    public boolean initUser() {
 
         if(!accessToken.isEmpty())
         {
-            AdminService adminService = APIBaseService.getAdminAPIService();
-            adminService.getAdminProfile(accessToken)
+            UserService userService = APIBaseService.getUserAPIService();
+            userService.getProfileUser(accessToken)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<APIResponse>() {
@@ -52,33 +53,37 @@ public class Session {
                         @Override
                         public void onError(Throwable e) {
                             Response.toastError(mContext,"Fail to call API "+e.toString(), Constant.TOASTSORT);
-                            Log.e("APIINITADMIN",e.toString());
-
+                            Log.e("APIINITUSER",e.toString());
                         }
 
                         @Override
                         public void onComplete() {
                             if(apiResponse.getStatus() == APIStatus.OK.getCode())
                             {
-                                AdminResponse adminResponse = new Gson().fromJson(new Gson().toJson((apiResponse.getData())), (Type) AdminResponse.class);
-                                SharedPreferences sharedPreferences = mContext.getSharedPreferences("Admin", Context.MODE_PRIVATE);
+                                UserResponse userResponse = new Gson().fromJson(new Gson().toJson((apiResponse.getData())), (Type) UserResponse.class);
+//                                SharedPreferences sharedPreferences = mContext.getSharedPreferences("User", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 Gson gson = new Gson();
-                                String json = gson.toJson(adminResponse);
-                                editor.putString("Admin",json);
+                                String json = gson.toJson(userResponse);
+                                editor.putString("User",json);
+                                editor.putString("Token",accessToken);
                                 editor.commit();
                             }
                             else
                             {
                                 Response.APIToastError(mContext, apiResponse.getStatus(), Constant.TOASTSORT);
+                                // clear all session & backhome
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear().commit();
                             }
                         }
                     });
+            if(sharedPreferences!=null){
+                return true;
+            }
         }
+        return false;
     }
-//    public static boolean checkToken(String token)
-//    {
-//
-//    }
+
 
 }

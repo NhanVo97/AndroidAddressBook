@@ -8,44 +8,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:background="#942196F3"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:textColorHint="#FFF"
-                android:padding="10dp"
-                android:background="#00000000"
-                android:drawablePadding="10dp"
-                android:drawableLeft="@drawable/search"
-                android:hint="@string/searchbar"
-                android:layout_weight="8"
-                android:id="@+id/searchBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textSize="16dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Nhân"
-                android:textColor="#FFF"
-                android:textStyle="bold" />
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/avatar"
-                android:layout_gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/noavt"
-                app:civ_border_color="#3F51B5"
-                app:civ_border_width="1dp" />
-
-
-        </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listAddressBook"
             android:layout_width="match_parent"

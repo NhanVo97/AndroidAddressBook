@@ -44,6 +44,9 @@ public class UserResponse implements Serializable {
     @SerializedName("lang")
     @Expose
     private String lang;
+    @SerializedName("role")
+    @Expose
+    private String role;
 
     public String getUserId() {
         return userId;
@@ -139,5 +142,13 @@ public class UserResponse implements Serializable {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
