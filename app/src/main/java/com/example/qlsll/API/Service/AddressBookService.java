@@ -1,6 +1,7 @@
 package com.example.qlsll.API.Service;
 
 import com.example.qlsll.API.Model.APIResponse;
+import com.example.qlsll.API.Model.Request.AddressBookRequest;
 import com.example.qlsll.API.Model.Request.PageAddressBookRequest;
 import com.example.qlsll.API.Model.Request.PageRequest;
 
@@ -12,4 +13,6 @@ import retrofit2.http.POST;
 public interface AddressBookService {
     @POST("address_book/list")
     Observable<APIResponse> getListAddressBook(@Header("X-Access-Token") String token, @Body PageAddressBookRequest pageRequest);
+    @POST("address_book")
+    Observable<APIResponse> addAddressBook(@Header("X-Access-Token") String token, @Body AddressBookRequest addressBookRequest);
 }

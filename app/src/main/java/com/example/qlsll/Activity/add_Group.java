@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.example.qlsll.R;
 
-public class Them_Nhom extends AppCompatActivity {
+public class add_Group extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_them__nhom);
+        setContentView(R.layout.add_group);
     }
 }

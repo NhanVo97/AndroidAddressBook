@@ -14,6 +14,14 @@ public class AddressBookRequest implements Serializable {
     private Date createDate;
     private Date modifyDate;
 
+    public AddressBookRequest(String firstName, String lastName, String email, String phone, String company) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.company = company;
+    }
+
     public String getAddressBookId() {
         return addressBookId;
     }

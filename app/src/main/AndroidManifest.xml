@@ -14,8 +14,8 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.ManagementActivity" />
-        <activity android:name=".Activity.Them_Nhom" />
-        <activity android:name=".Activity.ThemDS" />
+        <activity android:name=".Activity.add_Group" />
+        <activity android:name=".Activity.add_addreadbook" />
         <activity android:name=".Activity.Resgister" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

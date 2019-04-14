@@ -85,5 +85,9 @@ public class Session {
         return false;
     }
 
+    private void backToHome(){
+        Intent intent = new Intent(mContext,MainActivity.class);
+        mContext.startActivity(intent);
+    }
 
 }
