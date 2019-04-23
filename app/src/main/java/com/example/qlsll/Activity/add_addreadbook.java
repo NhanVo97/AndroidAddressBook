@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,34 +73,43 @@ public class add_addreadbook extends AppCompatActivity {
                     AddressBookRequest addressBookRequest=new AddressBookRequest(addHo,addTen,addMail,addSdt,addCongty);
                     SharedPreferences sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
                     String token = sharedPreferences.getString("Token","");
+                    Log.e("aaa",token);
                     if(!token.isEmpty()){
-                        AddressBookService addressBookService = APIBaseService.getAddressBookAPIService();
-                        addressBookService.addAddressBook(token,addressBookRequest)
-                                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
+                        Thread thread = new Thread(new Runnable() {
                             @Override
-                            public void onSubscribe(Disposable d) {
+                            public void run() {
+                                AddressBookService addressBookService = APIBaseService.getAddressBookAPIService();
+                                addressBookService.addAddressBook(token,addressBookRequest)
+                                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onNext(APIResponse res) {
-                                apiResponse = res;
+                                    @Override
+                                    public void onNext(APIResponse res) {
+                                        apiResponse = res;
 
-                            }
-                             @Override
-                            public void onError(Throwable e) {
-                             }
-                            @Override
-                            public void onComplete() {
-                                if(apiResponse.getStatus() == APIStatus.OK.getCode()){
-                                    Intent intent = new Intent(add_addreadbook.this,ManagementActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Response.APIToastError(getApplicationContext(),apiResponse.getStatus(),Constant.TOASTSORT);
-                                }
+                                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.e("API_ADD_ADDRESS",e.toString());
+                                    }
+                                    @Override
+                                    public void onComplete() {
+                                        if(apiResponse.getStatus() == APIStatus.OK.getCode()){
+                                            Intent intent = new Intent(add_addreadbook.this,ManagementActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Response.APIToastError(getApplicationContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+                                        }
+                                    }
+                                });
                             }
                         });
+                        thread.start();
+
                     } else {
                         backToHome();
                     }

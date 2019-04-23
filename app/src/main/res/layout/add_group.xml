@@ -17,6 +17,7 @@
         android:textSize="30dp"
         android:textStyle="bold" />
     <TextView
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -25,7 +26,7 @@
         android:textSize="20dp"
         android:textStyle="bold" />
     <EditText
-
+        android:id="@+id/addgroup_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
@@ -33,16 +34,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:paddingLeft="10dp"
-        android:text="Chi tiết"
+        android:text="Thông tin"
         android:textSize="20dp"
         android:textStyle="bold" />
     <EditText
-
+        android:id="@+id/addgroup_thongtin"
         android:layout_width="match_parent"
         android:layout_height="150dp" />
     <Button
         android:layout_gravity="center"
-        android:id="@+id/addbook"
+        android:id="@+id/addgroup_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#18ade4"

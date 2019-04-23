@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AddressBookService;
 import com.example.qlsll.Activity.MainActivity;
+import com.example.qlsll.Activity.add_addreadbook;
 import com.example.qlsll.Adapter.AdapterAddressBook;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
@@ -45,6 +47,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FragmentListAddressBook extends Fragment  {
     View v;
+    private FloatingActionButton btn_addbook;
     private List<AddressBookResponse> listAddressBook;
     private AdapterAddressBook adapterAddressBook;
     private RecyclerView recyclerView;
@@ -54,10 +57,20 @@ public class FragmentListAddressBook extends Fragment  {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         v = inflater.inflate(R.layout.fragment_list_addressbook,container,false);
-        // Anh Xa
+        //        // Anh Xa
+        btn_addbook=v.findViewById(R.id.fabAddressBook);
         recyclerView = v.findViewById(R.id.listAddressBook);
         initData("");
+        btn_addbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), add_addreadbook.class);
+                startActivity(intent);
+
+            }
+        });
         return v;
+
      }
         public void initData(String searchKey){
         listAddressBook = new ArrayList<>();

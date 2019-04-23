@@ -71,10 +71,7 @@
         android:id="@+id/ed_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
-        android:focusable="false"
-        android:padding="10dp"
-        android:textColor="#FFF" />
+        android:padding="10dp" />
 
     <TextView
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,8 @@ import com.example.qlsll.API.Model.Response.PageResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.GroupAddressBookService;
 import com.example.qlsll.Activity.MainActivity;
+import com.example.qlsll.Activity.add_Group;
+import com.example.qlsll.Activity.add_addreadbook;
 import com.example.qlsll.Adapter.AdapterGroupAddressBook;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
@@ -39,6 +42,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FragmentListGroupAddressBook extends Fragment {
     View v;
+    private FloatingActionButton btn_addgroup;
     private List<GroupAddressBookResponse> groupAddressBookResponseList;
     private AdapterGroupAddressBook adapterGroupAddressBook;
     private RecyclerView recyclerView;
@@ -49,6 +53,17 @@ public class FragmentListGroupAddressBook extends Fragment {
         super.onCreate(savedInstanceState);
         v = inflater.inflate(R.layout.fragment_list_group_addressbook,container,false);
         initData("");
+        btn_addgroup=v.findViewById(R.id.group_fabAddressBook);
+        recyclerView = v.findViewById(R.id.listGroup);
+        initData("");
+        btn_addgroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), add_Group.class);
+                startActivity(intent);
+
+            }
+        });
         return v;
     }
     public void initData(String searchKey){

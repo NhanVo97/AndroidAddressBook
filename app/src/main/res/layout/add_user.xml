@@ -1,0 +1,112 @@
+<LinearLayout android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#18ade4"
+        android:padding="10dp"
+        android:text="Thêm thành viên"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:id="@+id/adduser_lastName"
+            android:hint="@string/lastName"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:id="@+id/adduser_firstName"
+            android:hint="@string/firstName"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/adduser_email"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:inputType="number"
+        android:id="@+id/adduser_phone"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:text="@string/lang"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/adduser_spinnerLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+    </Spinner>
+    <EditText
+        android:id="@+id/adduser_address"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:focusable="false"
+        android:id="@+id/adduser_birthday"
+        android:layout_marginBottom="10dp"
+        android:inputType="date"
+        android:padding="10dp"
+        android:hint="@string/birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/adduser_password"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/adduser_cfpassword"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:hint="@string/Confirmpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginBottom="10dp"
+        android:id="@+id/adduser_btnSignUp"
+        android:background="#18ade4"
+        android:textColor="#FFFFFF"
+        android:text="@string/sign_up"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

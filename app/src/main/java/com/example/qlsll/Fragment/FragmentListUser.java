@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,8 @@ import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AdminService;
 import com.example.qlsll.Activity.MainActivity;
+import com.example.qlsll.Activity.add_addreadbook;
+import com.example.qlsll.Activity.add_user;
 import com.example.qlsll.Adapter.AdapterAutoCompleteAddressBook;
 import com.example.qlsll.Adapter.AdapterUser;
 import com.example.qlsll.R;
@@ -40,6 +43,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack {
     View v;
+    private FloatingActionButton btn_adduser;
     private List<UserResponse> listUser;
     private AdapterUser adapterUser;
     private RecyclerView recyclerView;
@@ -50,7 +54,21 @@ public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_user, container, false);
         initData("");
+
+        btn_adduser=v.findViewById(R.id.adduser_fab);
+        recyclerView = v.findViewById(R.id.listUser);
+        initData("");
+        btn_adduser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), add_user.class);
+                startActivity(intent);
+
+            }
+        });
         return v;
+
+
     }
 
     public void initData(String searchKey) {
