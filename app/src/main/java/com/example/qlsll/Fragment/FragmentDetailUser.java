@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
@@ -55,6 +56,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     List<Country> listCountry;
     APIResponse apiResponse;
     AdminService adminService;
+    boolean isCalling = false;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -195,6 +197,10 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     private void handleUpdateUser() {
         if(isValidateInput())
         {
+            if(isCalling){
+                return;
+            }
+            isCalling = true;
             UserRequest userRequest = new UserRequest();
             userRequest.setFirstName(edFirstName.getText().toString());
             userRequest.setLastName(edLastName.getText().toString());
