@@ -41,4 +41,9 @@
     <string name="title_back_dialog">Bạn đang muốn thoát ứng dụng?</string>
     <string name="accept">Đồng ý</string>
     <string name="close">Đóng lại</string>
+    <string name="add_Member">Thêm thành viên</string>
+    <string name="add_group">Thêm nhóm</string>
+    <string name="name_group">Tên nhóm</string>
+    <string name="thongtin_group">Thông tin nhóm</string>
+    <string name="logout">Đăng xuất</string>
 </resources>

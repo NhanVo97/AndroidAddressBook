@@ -3,6 +3,7 @@ package com.example.qlsll.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,15 +14,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.PageRequest;
+import com.example.qlsll.API.Model.Response.AddressBookResponse;
 import com.example.qlsll.API.Model.Response.PageResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
+import com.example.qlsll.API.Service.AddressBookService;
 import com.example.qlsll.API.Service.AdminService;
+import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Activity.MainActivity;
 import com.example.qlsll.Activity.add_addreadbook;
 import com.example.qlsll.Activity.add_user;
@@ -41,8 +46,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack {
-    View v;
+import static android.content.Context.MODE_PRIVATE;
+
+public class FragmentListUser extends Fragment  {
+        View v;
     private FloatingActionButton btn_adduser;
     private List<UserResponse> listUser;
     private AdapterUser adapterUser;
@@ -53,11 +60,11 @@ public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_user, container, false);
-        initData("");
+
 
         btn_adduser=v.findViewById(R.id.adduser_fab);
         recyclerView = v.findViewById(R.id.listUser);
-        initData("");
+
         btn_adduser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,9 +160,65 @@ public class FragmentListUser extends Fragment implements AdapterUser.OnCallBack
         Intent intent = new Intent(getActivity(), MainActivity.class);
         getActivity().startActivity(intent);
     }
+
     @Override
-    public void onItemClick(int position) {
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                break;
+            case 1:
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", MODE_PRIVATE);
+                String token = sharedPreferences.getString("Token", "");
+                UserResponse userResponse = new Gson().fromJson(new Gson().toJson((listUser.get(item.getGroupId()))),(Type) UserResponse.class);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AdminService adminService = APIBaseService.getAdminAPIService();
+                        adminService.delUser(token, userResponse.getUserId())
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(Object o) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("AAA", "loi " + e);
+
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                if(apiResponse.getStatus() == APIStatus.OK.getCode()){
+                                    initData("");
+                                } else {
+                                    Response.APIToastError(getContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+                thread.start();
+
+
+                break;
+        }
+        return super.onContextItemSelected(item);
+
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData("");
+    }
 }

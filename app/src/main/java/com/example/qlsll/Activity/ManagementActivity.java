@@ -1,5 +1,6 @@
 package com.example.qlsll.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import com.example.qlsll.Utils.Constant;
 import com.google.gson.Gson;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +39,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class ManagementActivity extends AppCompatActivity implements UpdateAPI, View.OnKeyListener, View.OnClickListener  {
+public class ManagementActivity extends AppCompatActivity implements UpdateAPI, View.OnKeyListener, View.OnClickListener {
 
     public TabLayout tabLayout;
     public ViewPager viewPager;
@@ -64,13 +66,16 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
         viewPager = findViewById(R.id.viewpager);
         tvUsername = findViewById(R.id.username);
         imAvt = findViewById(R.id.avatar);
-        searchBar = findViewById(R.id.searchBar);
+        searchBar=findViewById(R.id.searchBar);
+
         linearLayout = findViewById(R.id.layoutSearch);
         fragmentListUser = new FragmentListUser();
         fragmentListAddressBook = new FragmentListAddressBook();
         fragmentListGroupAddressBook = new FragmentListGroupAddressBook();
         // init data for viewpager & tablayout
         initData();
+
+
         // event onKey search
         searchBar.setOnKeyListener(this::onKey);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -103,14 +108,18 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
     {
         AdminManagementAdapter adminManagementAdapter = new AdminManagementAdapter(getSupportFragmentManager());
         SharedPreferences mPrefs = getSharedPreferences("User",MODE_PRIVATE);
+        Log.e("test",mPrefs.getString("User", ""));
+
         if(mPrefs!=null){
-            String json = mPrefs.getString("User", "");
+
+
             try {
-                JSONObject jsonObject = new JSONObject(json);
+                JSONObject jsonObject = new JSONObject(mPrefs.getString("User", ""));
                 Log.e("JSON",jsonObject.toString());
                 String role = jsonObject.getString("role");
                 if(!role.isEmpty()){
-                    currentUser = new Gson().fromJson(json,UserResponse.class);
+                    currentUser = new Gson().fromJson(mPrefs.getString("User", ""),UserResponse.class);
+                    Log.d("AAA",currentUser.getUserId()+"");
                     // set data
                     tvUsername.setText(currentUser.getFirstName());
                     if(role.equals("USER")){
@@ -144,6 +153,7 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d("AAA",e.toString());
             }
 
         } else {
@@ -183,21 +193,24 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.avatar:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("User",currentUser);
+                bundle.putSerializable("User", currentUser);
                 fragmentDetailUser.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.MainFrame,fragmentDetailUser).addToBackStack("tag").commit();
+                fragmentManager.beginTransaction().replace(R.id.MainFrame, fragmentDetailUser).addToBackStack("tag").commit();
                 viewPager.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
                 linearLayout.setVisibility(View.GONE);
                 break;
-        }
-    }
 
+
+
+        }
+
+    }
     @Override
     public void onBackPressed() {
         List<Fragment> frags = getSupportFragmentManager().getFragments();
@@ -231,4 +244,5 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
 
 
     }
+
 }

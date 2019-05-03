@@ -21,4 +21,6 @@ public interface AdminService {
     Observable<APIResponse> updateUserByAdmin(@Header("X-Access-Token") String token, @Body UserRequest userRequest, @Path("id") String id);
     @DELETE("admin/user")
     Observable<APIResponse> deleteUserByAdmin(@Header("X-Access-Token") String token, @Query("user_ids") String user_ids);
+    @DELETE("admin/user")
+    Observable<APIResponse> delUser(@Header("X-Access-Token") String token,  @Query("user_ids") String user_ids);
 }

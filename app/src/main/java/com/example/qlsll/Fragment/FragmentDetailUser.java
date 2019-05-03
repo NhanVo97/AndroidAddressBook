@@ -1,6 +1,8 @@
 package com.example.qlsll.Fragment;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import com.example.qlsll.API.Model.Request.UserRequest;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AdminService;
+import com.example.qlsll.Activity.MainActivity;
 import com.example.qlsll.Adapter.SpinnerCountryAdapter;
 import com.example.qlsll.Model.Country;
 import com.example.qlsll.R;
@@ -41,16 +44,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FragmentDetailUser extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener,UpdateAPI {
     View v;
     EditText edFirstName,edLastName,edEmail,edbirthday,edAddress,edPhone;
-    Spinner spLanguage;
+
     TextView tvInfoOf,tvCreateDate,tvStatus;
-    Button btnDelete,btnUpdate;
+    Button btnDelete,btnUpdate,btnLogOut;
     UserResponse currentResponse;
     String accessToken = "";
     UpdateAPI updateAPI;
     FragmentManager fragmentManager;
+    Spinner spLanguage;
     Country country;
     List<Country> listCountry;
     APIResponse apiResponse;
@@ -60,6 +66,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_detailuser,container,false);
         // Anh Xa
+        btnLogOut = v.findViewById(R.id.logout);
         edFirstName = v.findViewById(R.id.firstNameUser);
         edLastName = v.findViewById(R.id.lastNameUser);
         edEmail = v.findViewById(R.id.emailUser);
@@ -81,6 +88,12 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
         updateAPI = (UpdateAPI) getContext();
         currentResponse = (UserResponse) getArguments().getSerializable("User");
         initDataUserDetail(currentResponse);
+        Log.d("AAA",accessToken + " "+currentResponse.getFirstName());
+        if(accessToken!=null){
+            btnLogOut.setVisibility(View.INVISIBLE);
+        }else {
+            btnLogOut.setVisibility(View.VISIBLE);
+        }
         return v;
     }
 
@@ -88,13 +101,13 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
         if(currentResponse!=null)
         {
             // check if response null,return  ""
-            currentResponse.setFirstName(!currentResponse.getFirstName().isEmpty() ? currentResponse.getFirstName() : "");
-            currentResponse.setLastName(!currentResponse.getLastName().isEmpty() ? currentResponse.getLastName() : "");
-            currentResponse.setMailAddress(!currentResponse.getMailAddress().isEmpty() ? currentResponse.getMailAddress() : "");
-            currentResponse.setPhone(!currentResponse.getPhone().isEmpty() ? currentResponse.getPhone() : "");
-            currentResponse.setAddress(!currentResponse.getAddress().isEmpty() ? currentResponse.getAddress() : "");
-            currentResponse.setDob(!currentResponse.getDob().isEmpty() ? currentResponse.getDob() : "");
-            currentResponse.setSignupDate(!currentResponse.getSignupDate().isEmpty() ? currentResponse.getSignupDate() : "");
+            currentResponse.setFirstName(currentResponse.getFirstName()!=null? currentResponse.getFirstName() : "");
+            currentResponse.setLastName(currentResponse.getLastName()!=null ? currentResponse.getLastName() : "");
+            currentResponse.setMailAddress(currentResponse.getMailAddress()!=null ? currentResponse.getMailAddress() : "");
+            currentResponse.setPhone(currentResponse.getPhone()!=null ? currentResponse.getPhone() : "");
+            currentResponse.setAddress(currentResponse.getAddress()!=null ? currentResponse.getAddress() : "");
+            currentResponse.setDob(currentResponse.getDob()!=null ? currentResponse.getDob() : "");
+            currentResponse.setSignupDate(currentResponse.getSignupDate()!=null ? currentResponse.getSignupDate() : "");
             // set value to display
             edFirstName.setText(currentResponse.getFirstName());
             edLastName.setText(currentResponse.getLastName());
@@ -122,6 +135,16 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
             }
 
         }
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("User",MODE_PRIVATE);
+                sharedPreferences.edit().clear().commit();
+                startActivity(new Intent(getContext(), MainActivity.class));
+                getActivity().finish();
+
+            }
+        });
     }
 
     @Override
@@ -129,6 +152,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
         int id = v.getId();
         switch (id)
         {
+
             case R.id.deleteUser :
                 handleDeleteUser();
                 break;

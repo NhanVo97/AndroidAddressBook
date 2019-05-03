@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class AdapterAddressBook extends RecyclerView.Adapter<AdapterAddressBook.
         return listAddressBook.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder   implements View.OnCreateContextMenuListener{
         TextView username;
         TextView mail;
         TextView count;
@@ -81,6 +82,14 @@ public class AdapterAddressBook extends RecyclerView.Adapter<AdapterAddressBook.
             mail= itemView.findViewById(R.id.tvEmail);
             count = itemView.findViewById(R.id.tvSTT);
             layoutAddressBook = itemView.findViewById(R.id.layoutAddressBook);
+            layoutAddressBook.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(getAdapterPosition(), 2, 2, "Chỉnh sửa");
+            menu.add(getAdapterPosition(), 3, 3, "Xóa");
+
         }
     }
     public interface OnCallBack{

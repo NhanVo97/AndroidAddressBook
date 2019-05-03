@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
                 bundle.putString("accessToken",accessToken);
                 FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
                 fragmentDetailUser.setArguments(bundle);
-                fragmentTransaction.replace(R.id.MainFrame,fragmentDetailUser).addToBackStack("tag").commit();
+                fragmentTransaction.replace(R.id.layout_fragmentuser,fragmentDetailUser).addToBackStack("tag").commit();
             }
         });
     }
@@ -74,7 +75,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
         return listUser.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         TextView username;
         TextView mail;
         TextView count;
@@ -85,10 +86,15 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.ViewHolder> {
             mail= itemView.findViewById(R.id.tvEmail);
             count = itemView.findViewById(R.id.tvSTT);
             layoutUserClick = itemView.findViewById(R.id.layoutUserClick);
+            layoutUserClick.setOnCreateContextMenuListener(this);
         }
-    }
-    public interface OnCallBack{
-        void onItemClick(int position);
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(getAdapterPosition(), 0, 0, "Chỉnh sửa");
+            menu.add(getAdapterPosition(), 1, 1, "Xóa");
+
+        }
     }
 
 

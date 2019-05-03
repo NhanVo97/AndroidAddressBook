@@ -1,14 +1,17 @@
 package com.example.qlsll.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,8 @@ import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.UserService;
+import com.example.qlsll.Adapter.SpinnerCountryAdapter;
+import com.example.qlsll.Model.Country;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.CommonUtil;
 import com.example.qlsll.Utils.Constant;
@@ -26,8 +31,10 @@ import com.google.gson.JsonObject;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import io.reactivex.Observer;
@@ -44,6 +51,9 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     UserService userService;
     String day,month,year;
     APIResponse apiResponse;
+    Spinner spLanguage;
+    Country country;
+    List<Country> listCountry;
     private boolean validateInput(
             String firstName,String lastName,String email,String phone
             ,String password, String cfpassword
@@ -95,6 +105,7 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     }
     private void intitData()
     {
+        spLanguage = findViewById(R.id.dangki_spinnerLanguage);
         edFirstName = findViewById(R.id.firstName);
         edLastName = findViewById(R.id.lastName);
         edEmail = findViewById(R.id.email);
@@ -106,6 +117,22 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
         btnSignUp = findViewById(R.id.btnSignUp);
         tvLogin = findViewById(R.id.btnLogin);
         userService = APIBaseService.getUserAPIService();
+        listCountry = new ArrayList<>();
+        listCountry.add(new Country(R.drawable.en,"En","English"));
+        listCountry.add(new Country(R.drawable.vn,"Vn","Việt Nam"));
+        SpinnerCountryAdapter spinerCountryAdapter = new SpinnerCountryAdapter(getApplicationContext(),listCountry);
+        spLanguage.setAdapter(spinerCountryAdapter);
+        spLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                country = listCountry.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     @Override
     public void onClick(View v) {
@@ -129,16 +156,21 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }
-                    String dob = year+"-"+month+"-"+day;
-                    String lang = "En";
-                    UserRequest userRequest = new UserRequest(lastName,firstName,phone,email,dob,address,lang,passwordHash);
+                    String dayformart= day;
+                    if(dayformart.length()==1){
+                        dayformart=0+day;
+                    }
+                    String dob = year + "-" + month + "-" + dayformart;
+                    Log.d("AAA",dob+"");
+
+                    UserRequest userRequest = new UserRequest(lastName,firstName,phone,email,dob,address,country.getKey(),passwordHash);
                     sendToServer(userRequest);
                 }
 
                 break;
             case R.id.birthday :
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                DatePickerDialog dialog = new DatePickerDialog(this, this,
+                DatePickerDialog dialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,this,
                         calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
                 dialog.show();

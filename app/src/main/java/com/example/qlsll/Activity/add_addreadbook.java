@@ -17,7 +17,6 @@ import com.example.qlsll.API.Service.AddressBookService;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.CommonUtil;
 import com.example.qlsll.Utils.Constant;
-import com.example.qlsll.Utils.Management.Session;
 import com.example.qlsll.Utils.Response;
 
 import io.reactivex.Observer;
@@ -57,7 +56,7 @@ public class add_addreadbook extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_addreadbook);
+        setContentView(R.layout.dialog_add_addreadbook);
         AnhXa();
         btn_them.setOnClickListener(new View.OnClickListener() {
             @Override

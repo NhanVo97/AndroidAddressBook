@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class AdapterGroupAddressBook extends RecyclerView.Adapter<AdapterGroupAd
         return listGroup.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         TextView nameGroup;
         TextView description;
         TextView count;
@@ -82,10 +83,14 @@ public class AdapterGroupAddressBook extends RecyclerView.Adapter<AdapterGroupAd
             description= itemView.findViewById(R.id.tvDescription);
             layoutGroup = itemView.findViewById(R.id.layoutGroupAddressBook);
             count = itemView.findViewById(R.id.tvSTT);
+            layoutGroup.setOnCreateContextMenuListener(this);
         }
-    }
-    public interface OnCallBack{
-        void onItemClick(int position);
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(getAdapterPosition(), 4, 4, "Chỉnh sửa");
+            menu.add(getAdapterPosition(), 5, 5, "Xóa");
+        }
     }
 
 

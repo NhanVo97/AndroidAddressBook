@@ -15,7 +15,7 @@ public class add_Group extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_group);
+        setContentView(R.layout.dialog_add_group);
         AnhXa();
     }
     void AnhXa(){

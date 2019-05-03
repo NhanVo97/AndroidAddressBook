@@ -12,15 +12,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.PageRequest;
+import com.example.qlsll.API.Model.Response.AddressBookResponse;
 import com.example.qlsll.API.Model.Response.GroupAddressBookResponse;
 import com.example.qlsll.API.Model.Response.PageResponse;
 import com.example.qlsll.API.Service.APIBaseService;
+import com.example.qlsll.API.Service.AddressBookService;
 import com.example.qlsll.API.Service.GroupAddressBookService;
 import com.example.qlsll.Activity.MainActivity;
 import com.example.qlsll.Activity.add_Group;
@@ -39,6 +42,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class FragmentListGroupAddressBook extends Fragment {
     View v;
@@ -111,7 +116,7 @@ public class FragmentListGroupAddressBook extends Fragment {
                                             PageResponse pageResponse = new Gson().fromJson(new Gson().toJson((apiResponse.getData())), (Type) PageResponse.class);
                                             List<Object> listObject = pageResponse.getContent();
                                             groupAddressBookResponseList = (List<GroupAddressBookResponse>) (List<?>) listObject;
-                                            adapterGroupAddressBook = new AdapterGroupAddressBook(groupAddressBookResponseList, getContext(), getFragmentManager(), accessToken);
+                                            adapterGroupAddressBook = new AdapterGroupAddressBook(groupAddressBookResponseList, getActivity(), getFragmentManager(), accessToken);
                                             recyclerView.setHasFixedSize(true);
                                             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                                             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -139,5 +144,59 @@ public class FragmentListGroupAddressBook extends Fragment {
     private void backToHome(){
         Intent intent = new Intent(getActivity(), MainActivity.class);
         getActivity().startActivity(intent);
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 4:
+                break;
+            case 5:
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", MODE_PRIVATE);
+                String token = sharedPreferences.getString("Token", "");
+                GroupAddressBookResponse groupAddressBookResponse = new Gson().fromJson(new Gson().toJson((groupAddressBookResponseList.get(item.getGroupId()))),(Type) GroupAddressBookResponse.class);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        GroupAddressBookService groupAddressBookService = APIBaseService.getGroupAddressBookAPIService();
+                        groupAddressBookService.delGroup(token, groupAddressBookResponse.getGroupAddressId())
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Object>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(Object o) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("AAA", "loi " + e);
+
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                if(apiResponse.getStatus() == APIStatus.OK.getCode()){
+                                    initData("");
+                                } else {
+                                    Response.APIToastError(getContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+                thread.start();
+
+
+                break;
+        }
+        return super.onContextItemSelected(item);
+
+
     }
 }

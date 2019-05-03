@@ -1,20 +1,27 @@
 package com.example.qlsll.Activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.UserRequest;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.UserService;
+import com.example.qlsll.Adapter.SpinnerCountryAdapter;
+import com.example.qlsll.Model.Country;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.CommonUtil;
 import com.example.qlsll.Utils.Constant;
@@ -22,7 +29,12 @@ import com.example.qlsll.Utils.MD5Hash;
 import com.example.qlsll.Utils.Response;
 
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import io.reactivex.Observer;
@@ -36,14 +48,19 @@ public class add_user extends AppCompatActivity implements View.OnClickListener,
     TextView tvLogin,tvForgotPassword;
     UserService userService;
     String day,month,year;
+    Spinner spLanguage;
+    Country country;
+    List<Country> listCountry;
     APIResponse apiResponse;
-    private boolean validateInput(
+
+    private boolean validateInput
+            (
             String firstName,String lastName,String email,String phone
-            ,String password, String cfpassword
+            ,String password
     )
     {
         if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() ||
-                password.isEmpty() || cfpassword.isEmpty())
+                password.isEmpty())
         {
             Response.toastError(getApplicationContext(),getResources().getString(R.string.err_input_invalid), Constant.TOASTSORT);
             return false;
@@ -65,12 +82,7 @@ public class add_user extends AppCompatActivity implements View.OnClickListener,
                     return false;
                 }
             }
-            // password not matches
-            if(!password.equals(cfpassword))
-            {
-                Response.toastError(getApplicationContext(),getResources().getString(R.string.err_the_same_password),Constant.TOASTSORT);
-                return false;
-            }
+
 
         }
         return true;
@@ -78,7 +90,7 @@ public class add_user extends AppCompatActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_user);
+        setContentView(R.layout.dialog_add_user);
 
         // Anh Xa
         intitData();
@@ -94,51 +106,77 @@ public class add_user extends AppCompatActivity implements View.OnClickListener,
         edPhone = findViewById(R.id.adduser_phone);
         edAddress = findViewById(R.id.adduser_address);
         edPassword = findViewById(R.id.adduser_password);
-        edCfPassword = findViewById(R.id.adduser_cfpassword);
+        spLanguage = findViewById(R.id.adduser_spinnerLanguage);
         edBirthDay = findViewById(R.id.adduser_birthday);
         btnSignUp = findViewById(R.id.adduser_btnSignUp);
         userService = APIBaseService.getUserAPIService();
+        listCountry = new ArrayList<>();
+        listCountry.add(new Country(R.drawable.en,"En","English"));
+        listCountry.add(new Country(R.drawable.vn,"Vn","Việt Nam"));
+        SpinnerCountryAdapter spinerCountryAdapter = new SpinnerCountryAdapter(getApplicationContext(),listCountry);
+        spLanguage.setAdapter(spinerCountryAdapter);
+        spLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               country = listCountry.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
-    @Override
+
+
+  @Override
     public void onClick(View v) {
-        int idCase = v.getId();
-        switch (idCase)
-        {
-            case R.id.adduser_btnSignUp:
+      int idCase = v.getId();
+      switch (idCase) {
+          case R.id.adduser_btnSignUp:
 
-                String firstName = edFirstName.getText().toString();
-                String lastName = edLastName.getText().toString();
-                String email = edEmail.getText().toString();
-                String phone = edPhone.getText().toString();
-                String password = edPassword.getText().toString();
-                String cfpassword = edCfPassword.getText().toString();
-                String address = edAddress.getText().toString();
-                String birthDay = edBirthDay.getText().toString();
-                if(validateInput(firstName,lastName,email,phone,password,cfpassword))
-                {   String passwordHash="";
-                    try {
-                        passwordHash = MD5Hash.MD5Encrypt(password);
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-                    String dob = year+"-"+month+"-"+day;
-                    String lang = "En";
-                    UserRequest userRequest = new UserRequest(lastName,firstName,phone,email,dob,address,lang,passwordHash);
-                    sendToServer(userRequest);
-                }
+              String firstName = edFirstName.getText().toString();
+              String lastName = edLastName.getText().toString();
+              String email = edEmail.getText().toString();
+              String phone = edPhone.getText().toString();
+              String password = edPassword.getText().toString();
+              String address = edAddress.getText().toString();
 
-                break;
-            case R.id.birthday :
-                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                DatePickerDialog dialog = new DatePickerDialog(this, this,
-                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
-                dialog.show();
-                break;
-        }
+              if (validateInput(firstName, lastName, email, phone, password)) {
+                  String passwordHash = "";
+                  try {
+                      passwordHash = MD5Hash.MD5Encrypt(password);
+                  } catch (NoSuchAlgorithmException e) {
+                      e.printStackTrace();
+                  }
+                  String dayformart= day;
+                  if(dayformart.length()==1){
+                      dayformart=0+day;
+                  }
+                  String dob = year + "-" + month + "-" + dayformart;
+                  Log.d("AAA",dob+"");
+
+                  UserRequest userRequest = new UserRequest(lastName,firstName,phone,email,dob,address,country.getKey(),passwordHash);
+                  sendToServer(userRequest);
+              }
 
 
-    }
+              break;
+          case R.id.adduser_birthday:
+
+              Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+              DatePickerDialog dialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,this,
+                      calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                      calendar.get(Calendar.DAY_OF_MONTH));
+              dialog.show();
+              break;
+      }
+
+
+  }
+
     private void sendToServer(UserRequest userRequest)
     {
 
@@ -162,8 +200,12 @@ public class add_user extends AppCompatActivity implements View.OnClickListener,
 
             @Override
             public void onComplete() {
-                if(apiResponse.getStatus() == APIStatus.OK.getCode())
+                if(apiResponse.getStatus() == APIStatus.OK.getCode()){
                     Response.toastSuccess(add_user.this, getResources().getString(R.string.register_success),Constant.TOASTSORT);
+                    finish();
+
+                }
+
                 else
                     Response.APIToastError(add_user.this, apiResponse.getStatus(),Constant.TOASTSORT);
             }
