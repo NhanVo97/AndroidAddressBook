@@ -181,13 +181,13 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
     }
     private void sendToServer(UserRequest userRequest)
     {
-
-        userService.signUpUser(userRequest).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<APIResponse>() {
+        userService.signUpUser(userRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<APIResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
-
-            }
+                 }
 
             @Override
             public void onNext(APIResponse res) {
@@ -202,14 +202,13 @@ public class Resgister extends AppCompatActivity implements View.OnClickListener
 
             @Override
             public void onComplete() {
-                if(apiResponse.getStatus() == APIStatus.OK.getCode())
-                    Response.toastSuccess(Resgister.this, getResources().getString(R.string.register_success),Constant.TOASTSORT);
-                else
+                if(apiResponse.getStatus() == APIStatus.OK.getCode()) {
+                    Response.toastSuccess(Resgister.this, getResources().getString(R.string.register_success), Constant.TOASTSORT);
+                    finish();
+                }else
                     Response.APIToastError(Resgister.this, apiResponse.getStatus(),Constant.TOASTSORT);
             }
         });
-
-
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

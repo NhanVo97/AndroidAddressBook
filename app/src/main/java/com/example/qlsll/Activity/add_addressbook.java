@@ -23,7 +23,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class add_addreadbook extends AppCompatActivity {
+public class add_addressbook extends AppCompatActivity {
 
     private Button btn_them;
     private EditText ed_ho;
@@ -97,7 +97,7 @@ public class add_addreadbook extends AppCompatActivity {
                                     @Override
                                     public void onComplete() {
                                         if(apiResponse.getStatus() == APIStatus.OK.getCode()){
-                                            Intent intent = new Intent(add_addreadbook.this,ManagementActivity.class);
+                                            Intent intent = new Intent(add_addressbook.this,ManagementActivity.class);
                                             startActivity(intent);
                                             finish();
                                         } else {

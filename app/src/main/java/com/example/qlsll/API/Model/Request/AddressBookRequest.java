@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class AddressBookRequest implements Serializable {
-    private String addressBookId;
+    private String addressbookId;
     private String firstName;
     private String lastName;
     private String email;
@@ -22,12 +22,16 @@ public class AddressBookRequest implements Serializable {
         this.company = company;
     }
 
-    public String getAddressBookId() {
-        return addressBookId;
+    public AddressBookRequest() {
+
     }
 
-    public void setAddressBookId(String addressBookId) {
-        this.addressBookId = addressBookId;
+    public String getAddressbookId() {
+        return addressbookId;
+    }
+
+    public void setAddressbookId(String addressbookId) {
+        this.addressbookId = addressbookId;
     }
 
     public String getFirstName() {

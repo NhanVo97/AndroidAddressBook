@@ -16,7 +16,7 @@
         <activity android:name=".Activity.add_user"></activity>
         <activity android:name=".Activity.ManagementActivity" />
         <activity android:name=".Activity.add_Group" />
-        <activity android:name=".Activity.add_addreadbook" />
+        <activity android:name=".Activity.add_addressbook" />
         <activity android:name=".Activity.Resgister" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

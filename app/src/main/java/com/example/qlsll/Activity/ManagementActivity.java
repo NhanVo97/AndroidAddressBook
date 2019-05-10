@@ -61,17 +61,9 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_management_activity);
+        Log.e("aaa","vao day");
         // Anh Xa
-        tabLayout = findViewById(R.id.tablayour);
-        viewPager = findViewById(R.id.viewpager);
-        tvUsername = findViewById(R.id.username);
-        imAvt = findViewById(R.id.avatar);
-        searchBar=findViewById(R.id.searchBar);
-
-        linearLayout = findViewById(R.id.layoutSearch);
-        fragmentListUser = new FragmentListUser();
-        fragmentListAddressBook = new FragmentListAddressBook();
-        fragmentListGroupAddressBook = new FragmentListGroupAddressBook();
+        AnhXa();
         // init data for viewpager & tablayout
         initData();
 
@@ -104,6 +96,18 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
 
     }
 
+    void AnhXa(){
+        tabLayout = findViewById(R.id.tablayour);
+        viewPager = findViewById(R.id.viewpager);
+        tvUsername = findViewById(R.id.username);
+        imAvt = findViewById(R.id.avatar);
+        searchBar=findViewById(R.id.searchBar);
+
+        linearLayout = findViewById(R.id.layoutSearch);
+        fragmentListUser = new FragmentListUser();
+        fragmentListAddressBook = new FragmentListAddressBook();
+        fragmentListGroupAddressBook = new FragmentListGroupAddressBook();
+    }
     private void initData()
     {
         AdminManagementAdapter adminManagementAdapter = new AdminManagementAdapter(getSupportFragmentManager());
@@ -118,11 +122,12 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
                 Log.e("JSON",jsonObject.toString());
                 String role = jsonObject.getString("role");
                 if(!role.isEmpty()){
-                    currentUser = new Gson().fromJson(mPrefs.getString("User", ""),UserResponse.class);
+
+                    currentUser = new Gson().fromJson(mPrefs.getString("User", ""), UserResponse.class);
                     Log.d("AAA",currentUser.getUserId()+"");
                     // set data
                     tvUsername.setText(currentUser.getFirstName());
-                    if(role.equals("USER")){
+                    if(role.equals(currentUser.getUserId())){
                         // set data for view pager
                         adminManagementAdapter.addFragment(fragmentListAddressBook,getResources().getString(R.string.addressbook));
                         adminManagementAdapter.addFragment(fragmentListGroupAddressBook,getResources().getString(R.string.group_addressbook));
@@ -167,6 +172,8 @@ public class ManagementActivity extends AppCompatActivity implements UpdateAPI, 
     @Override
     public void checkUpdate(boolean isCheck) {
        fragmentListUser.initData("");
+       fragmentListAddressBook.initData("");
+       fragmentListGroupAddressBook.initData("");
     }
 
     @Override

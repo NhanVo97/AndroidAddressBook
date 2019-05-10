@@ -46,4 +46,5 @@
     <string name="name_group">Tên nhóm</string>
     <string name="thongtin_group">Thông tin nhóm</string>
     <string name="logout">Đăng xuất</string>
+    <string name="capnhabook">Cập nhật</string>
 </resources>

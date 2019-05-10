@@ -5,7 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.qlsll.API.APIStatus;
-
+//Thông Báo API
 public class Response {
     public static void toastError(Context context, String stringToast, int timeShow)
     {

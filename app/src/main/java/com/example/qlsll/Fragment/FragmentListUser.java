@@ -3,13 +3,11 @@ package com.example.qlsll.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,17 +18,12 @@ import android.view.ViewGroup;
 import com.example.qlsll.API.APIStatus;
 import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.PageRequest;
-import com.example.qlsll.API.Model.Response.AddressBookResponse;
 import com.example.qlsll.API.Model.Response.PageResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.API.Service.APIBaseService;
-import com.example.qlsll.API.Service.AddressBookService;
 import com.example.qlsll.API.Service.AdminService;
-import com.example.qlsll.API.Service.UserService;
 import com.example.qlsll.Activity.MainActivity;
-import com.example.qlsll.Activity.add_addreadbook;
 import com.example.qlsll.Activity.add_user;
-import com.example.qlsll.Adapter.AdapterAutoCompleteAddressBook;
 import com.example.qlsll.Adapter.AdapterUser;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
@@ -91,7 +84,7 @@ public class FragmentListUser extends Fragment  {
                     pageRequest.setAscSort(true);
                     pageRequest.setPageNumber("1");
                     pageRequest.setSearchKey(searchKey);
-                    pageRequest.setPageSize("10");
+                    pageRequest.setPageSize("50");
                     pageRequest.setSortCase(1);
                     // Get Data
                     SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -117,7 +110,6 @@ public class FragmentListUser extends Fragment  {
                                         Response.toastError(getContext(), getResources().getString(R.string.err_get_data), Constant.TOASTSORT);
                                         Log.e("APIGETUSERBYADMIN", e.toString());
                                     }
-
                                     @Override
                                     public void onComplete() {
                                         if (apiResponse.getStatus() == APIStatus.OK.getCode()) {

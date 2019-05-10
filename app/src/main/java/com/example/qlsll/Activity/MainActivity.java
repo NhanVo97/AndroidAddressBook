@@ -1,5 +1,6 @@
 package com.example.qlsll.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.example.qlsll.API.Model.APIResponse;
 import com.example.qlsll.API.Model.Request.AuthRequest;
 import com.example.qlsll.API.Service.APIBaseService;
 import com.example.qlsll.API.Service.AuthService;
+import com.example.qlsll.Fragment.FragmentListAddressBook;
 import com.example.qlsll.R;
 import com.example.qlsll.Utils.Constant;
 import com.example.qlsll.Utils.MD5Hash;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPreferences!=null){
            String json = sharedPreferences.getString("User","");
            String token = sharedPreferences.getString("Token","");
+           Log.e("AAA",token);
            if(!json.isEmpty() && !token.isEmpty()){
                Session session = new Session(token,getApplicationContext());
                if(session.initUser()){
@@ -76,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                  Intent myIntent = new Intent(MainActivity.this, Resgister.class);
-                Intent intent = new Intent(MainActivity.this,Resgister.class);
-                MainActivity.this.startActivity(myIntent);
-                startActivity(intent);
+                startActivity(myIntent);
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
         });
 
     }
@@ -131,30 +133,26 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Response.toastError(getApplicationContext(),getResources().getString(R.string.login_fail),Constant.TOASTSORT);
-                        Log.e("API_LOGIN",e.toString());
+                        Response.toastError(getApplicationContext(), getResources().getString(R.string.login_fail), Constant.TOASTSORT);
+                        Log.e("API_LOGIN", e.toString());
                     }
 
                     @Override
                     public void onComplete() {
-                        if(apiResponse.getStatus() == APIStatus.OK.getCode())
-                        {
-                            Session session = new Session(apiResponse.getData().toString(),getApplicationContext());
-                            if(session.initUser()){
+                        if (apiResponse.getStatus() == APIStatus.OK.getCode()) {
+                            Session session = new Session(apiResponse.getData().toString(), getApplicationContext());
+                            if (session.initUser()) {
                                 GoManagement();
-                            }else {
+                            } else {
 
                             }
 
-                        }
-                        else
-                        {
-                            Response.APIToastError(getApplicationContext(),apiResponse.getStatus(),Constant.TOASTSORT);
+                        } else {
+                            Response.APIToastError(getApplicationContext(), apiResponse.getStatus(), Constant.TOASTSORT);
                         }
                     }
                 });
 
     }
-
 
 }

@@ -28,6 +28,7 @@ public class RetrofitResfulAPI {
             gson = new GsonBuilder()
                     .setLenient()
                     .create();
+            // set thời gian timeout http
             OkHttpClient okClient = new OkHttpClient.Builder()
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(30, TimeUnit.SECONDS)
@@ -41,9 +42,7 @@ public class RetrofitResfulAPI {
                                 }
                             })
                     .build();
-
-
-            INSTANCE = new Retrofit.Builder()
+                 INSTANCE = new Retrofit.Builder()
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .baseUrl(BASE_URL)
@@ -52,6 +51,4 @@ public class RetrofitResfulAPI {
         }
         return INSTANCE;
     }
-
-
 }

@@ -2,18 +2,18 @@ package com.example.qlsll.API.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-public class APIResponse {
+// lấy dữ liệu backend về
+public class APIResponse {// class trả về của API
     // cai nay
-    @SerializedName("status")
+    @SerializedName("status")// báo lỗi
     @Expose
     private Integer status;
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("data")
+    @SerializedName("data") //
     @Expose
-    private Object data;
+    private Object data; // dâta trả về
 
     public Integer getStatus() {
         return status;

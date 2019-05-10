@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.example.qlsll.API.Model.Response.AddressBookResponse;
 import com.example.qlsll.API.Model.Response.UserResponse;
 import com.example.qlsll.Activity.MainActivity;
+import com.example.qlsll.Fragment.FragmentDetaiAddressBook;
 import com.example.qlsll.Fragment.FragmentDetailUser;
 import com.example.qlsll.Fragment.FragmentListUser;
 import com.example.qlsll.R;
@@ -54,13 +56,14 @@ public class AdapterAddressBook extends RecyclerView.Adapter<AdapterAddressBook.
         holder.layoutAddressBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("AAA",addressBookResponse.getEmail()+"");
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("AddressBook", addressBookResponse);
                 bundle.putString("accessToken",accessToken);
-                FragmentDetailUser fragmentDetailUser = new FragmentDetailUser();
-                fragmentDetailUser.setArguments(bundle);
-                fragmentTransaction.replace(R.id.layout_fragmentuser,fragmentDetailUser).addToBackStack("tag").commit();
+                FragmentDetaiAddressBook fragmentDetaiAddressBook = new FragmentDetaiAddressBook();
+                fragmentDetaiAddressBook.setArguments(bundle);
+                fragmentTransaction.replace(R.id.layout_fragmentAddressBook,fragmentDetaiAddressBook).addToBackStack("tag").commit();
             }
         });
     }

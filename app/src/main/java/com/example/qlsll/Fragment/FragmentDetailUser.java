@@ -61,7 +61,7 @@ public class FragmentDetailUser extends Fragment implements View.OnClickListener
     Country country;
     List<Country> listCountry;
     APIResponse apiResponse;
-    AdminService adminService;
+        AdminService adminService;
     boolean isCalling = false;
     @Nullable
     @Override

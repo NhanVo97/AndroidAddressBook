@@ -205,9 +205,10 @@ public class add_user extends AppCompatActivity implements View.OnClickListener,
                     finish();
 
                 }
-
-                else
+                     else
                     Response.APIToastError(add_user.this, apiResponse.getStatus(),Constant.TOASTSORT);
+
+
             }
         });
 
